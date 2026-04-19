@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Orçamento · unspredinhos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── LIGHT MODE ── */
+    :root {
+      --musgo:#3d5230;
+      --musgo-light:#e5ebe0;
+      --musgo-mid:#9db08c;
+      --musgo-dark:#1e2d15;
+      --musgo-btn:#3d5230;
+      --musgo-btn-text:#ffffff;
+      --bg:#ffffff;
+      --bg2:#eeeeec;
+      --bg3:#e4e4e2;
+      --text:#111111;
+      --text2:#404040;
+      --text3:#767672;
+      --border:rgba(0,0,0,0.13);
+      --border2:rgba(0,0,0,0.22);
+      --shadow:rgba(0,0,0,0.06);
+      --radius:8px;
+      --radius-lg:12px;
+    }
+
+    /* ── DARK MODE ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --musgo:#7aab62;
+        --musgo-light:#1e2d1a;
+        --musgo-mid:#4a6e3a;
+        --musgo-dark:#aed69a;
+        --musgo-btn:#5a8a46;
+        --musgo-btn-text:#ffffff;
+        --bg:#141414;
+        --bg2:#1f1f1f;
+        --bg3:#2a2a2a;
+        --text:#f0f0ee;
+        --text2:#b8b8b4;
+        --text3:#707070;
+        --border:rgba(255,255,255,0.10);
+        --border2:rgba(255,255,255,0.18);
+        --shadow:rgba(0,0,0,0.4);
+        --radius:8px;
+        --radius-lg:12px;
+      }
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;font-weight:400;color:var(--text);background:var(--bg);min-height:100vh}
+    .app{max-width:420px;margin:0 auto;padding-bottom:152px}
+
+    /* Header */
+    .header{padding:28px 20px 0}
+    .marca{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--musgo)}
+
+    /* Abas */
+    .tabs-nav{display:flex;margin:16px 20px 0;border-bottom:1.5px solid var(--border2)}
+    .tab-btn{flex:1;padding:11px 4px;font-size:13px;font-weight:400;background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .18s,border-color .18s;-webkit-tap-highlight-color:transparent}
+    .tab-btn.ativo{color:var(--musgo);border-bottom-color:var(--musgo);font-weight:600}
+    .painel{display:none;padding:20px}
+    .painel.ativo{display:block}
+    .sec-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+
+    /* Tamanhos */
+    .tam-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px}
+    .tam-card{border:1.5px solid var(--border2);border-radius:var(--radius);padding:14px 12px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--bg2);user-select:none;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
+    .tam-card:active{background:var(--musgo-light)}
+    .tam-card.ativo{border:2px solid var(--musgo);background:var(--musgo-light)}
+    .tam-card-info{flex:1;min-width:0}
+    .tam-card-nome{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
+    .tam-card-cm{font-size:11px;color:var(--text3)}
+    .tam-card.ativo .tam-card-nome{color:var(--musgo-dark)}
+    .tam-card.ativo .tam-card-cm{color:var(--musgo)}
+    .tam-card-preco{font-size:15px;font-weight:600;color:var(--text);flex-shrink:0}
+    .tam-card.ativo .tam-card-preco{color:var(--musgo-dark)}
+
+    /* Aviso formatos maiores */
+    .aviso-maior{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;margin-top:8px;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--bg2)}
+    .aviso-maior-icone{font-size:16px;flex-shrink:0;margin-top:1px}
+    .aviso-maior a{color:var(--musgo);font-weight:600;text-decoration:none}
+
+    /* Opções */
+    .opcao-linha{padding:16px 0;border-top:1px solid var(--border2);-webkit-tap-highlight-color:transparent}
+    .opcao-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .opcao-info{flex:1}
+    .opcao-titulo{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+    .opcao-desc{font-size:12px;color:var(--text3);line-height:1.5}
+    .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--musgo-light);border:1px solid var(--musgo-mid);color:var(--musgo);text-transform:uppercase;vertical-align:middle;margin-left:4px;letter-spacing:.04em}
+
+    /* Toggle */
+    .toggle{position:relative;width:46px;height:28px;cursor:pointer;flex-shrink:0;margin-top:2px}
+    .toggle input{display:none}
+    .t-track{position:absolute;inset:0;border-radius:14px;border:1.5px solid var(--border2);background:var(--bg3);transition:background .2s,border-color .2s}
+    .toggle input:checked~.t-track{background:var(--musgo);border-color:var(--musgo)}
+    .t-thumb{position:absolute;top:4px;left:4px;width:16px;height:16px;border-radius:50%;background:var(--text3);transition:transform .2s,background .2s}
+    .toggle input:checked~.t-track .t-thumb{transform:translateX(18px);background:#fff}
+
+    /* Expand */
+    .expand{margin-top:12px;display:none}
+    .expand.vis{display:block}
+    .copies-expand{margin-top:10px;display:none;flex-direction:column;gap:8px}
+    .copies-expand.vis{display:flex}
+
+    .moldura-preview{display:flex;gap:12px;align-items:flex-start;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px}
+    .moldura-ph{width:68px;height:68px;border-radius:6px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+    .moldura-ph svg{opacity:.35;color:var(--text3)}
+    .moldura-ph span{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+    .moldura-nome{font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px}
+    .moldura-det{font-size:12px;color:var(--text2);line-height:1.55}
+    .moldura-extra{font-size:15px;font-weight:700;margin-top:8px;color:var(--musgo-dark)}
+
+    .copies-info{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:11px 13px;font-size:12px;color:var(--text2);line-height:1.6}
+    .qty-row{display:flex;align-items:center;gap:12px}
+    .qty-row label{font-size:13px;color:var(--text2)}
+    .qty-btn{width:38px;height:38px;border:1.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-tap-highlight-color:transparent}
+    .qty-btn:active{background:var(--bg3)}
+    .qty-val{font-size:20px;font-weight:700;min-width:28px;text-align:center;color:var(--musgo-dark)}
+    .qty-unit{font-size:12px;font-weight:500;color:var(--musgo)}
+
+    /* Resumo */
+    .resumo-box{background:var(--musgo-light);border-radius:var(--radius-lg);padding:16px;margin-top:22px;border:1.5px solid var(--musgo-mid)}
+    .resumo-titulo{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--musgo);margin-bottom:12px}
+    .r-linha{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:13px;color:var(--text2)}
+    .r-linha span:first-child{padding-right:8px}
+    .r-linha span:last-child{font-size:14px;font-weight:600;color:var(--musgo-dark);white-space:nowrap}
+    .r-divider{border:none;border-top:1px solid var(--musgo-mid);margin:10px 0}
+    .r-total-linha{display:flex;justify-content:space-between;align-items:center;padding:2px 0}
+    .r-total-label{font-size:14px;font-weight:500;color:var(--musgo-dark)}
+    .r-total-val{font-size:26px;font-weight:700;color:var(--musgo-dark)}
+
+    /* Pagamento */
+    .pgto-box{margin-top:12px;border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden}
+    .pgto-header{padding:9px 14px;background:var(--bg2);border-bottom:1px solid var(--border2);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+    .pgto-parcelas{display:grid;grid-template-columns:1fr 1fr}
+    .pgto-parcela{padding:14px;background:var(--bg)}
+    .pgto-parcela:first-child{border-right:1px solid var(--border2)}
+    .pgto-etapa{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+    .pgto-valor{font-size:22px;font-weight:700;color:var(--musgo-dark);margin-bottom:4px;line-height:1.1}
+    .pgto-quando{font-size:11px;color:var(--text3);line-height:1.45}
+    .pgto-footer{padding:9px 14px;font-size:12px;color:var(--text3);border-top:1px solid var(--border2);background:var(--bg2)}
+
+    /* Aviso prazo */
+    .aviso{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:13px 14px;border:1px solid var(--musgo-mid);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--musgo-light)}
+    .aviso-dot{width:6px;height:6px;border-radius:50%;background:var(--musgo);margin-top:4px;flex-shrink:0}
+
+    /* Processo */
+    .processo-box{margin-top:24px;border:1.5px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden}
+    .processo-header{padding:13px 16px;background:var(--bg2);border-bottom:1px solid var(--border2)}
+    .processo-header-titulo{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+    .processo-header-sub{font-size:12px;color:var(--text3)}
+    .etapa{display:flex;gap:14px;align-items:flex-start;padding:16px;border-bottom:1px solid var(--border);background:var(--bg)}
+    .etapa:last-child{border-bottom:none}
+    .etapa-num{width:28px;height:28px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text2)}
+    .etapa.destaque .etapa-num{background:var(--musgo);border-color:var(--musgo);color:#fff}
+    .etapa-corpo{flex:1;min-width:0}
+    .etapa-titulo{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+    .etapa-desc{font-size:12px;color:var(--text3);line-height:1.6}
+    .etapa-chip{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--musgo);background:var(--musgo-light);border:1px solid var(--musgo-mid);border-radius:4px;padding:3px 9px;line-height:1.4}
+
+    /* Sobre */
+    .perfil-hero{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+    .perfil-foto{width:72px;height:72px;border-radius:50%;background:var(--musgo-light);border:2px solid var(--musgo-mid);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .perfil-foto svg{opacity:.4;color:var(--musgo)}
+    .perfil-nome{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2}
+    .perfil-sub{font-size:12px;color:var(--text3);line-height:1.5}
+    .perfil-bio{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:18px}
+    .perfil-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+    .pill{font-size:12px;font-weight:500;color:var(--musgo-dark);background:var(--musgo-light);border:1px solid var(--musgo-mid);border-radius:20px;padding:6px 14px;white-space:nowrap}
+    .galeria-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
+    .galeria-item{aspect-ratio:1;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--musgo-light);border:1px solid var(--musgo-mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+    .galeria-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+    .galeria-item:active img{transform:scale(1.03)}
+    .galeria-ph-icon{opacity:.3;color:var(--musgo)}
+    .galeria-ph-label{font-size:11px;font-weight:500;color:var(--musgo)}
+    .galeria-caption{font-size:12px;color:var(--text3);text-align:center;padding-top:6px;margin-bottom:18px}
+    .galeria-caption a{color:var(--musgo);font-weight:600;text-decoration:none}
+    .perfil-links{display:flex;flex-direction:column;gap:8px}
+    .perfil-link{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1.5px solid var(--border2);border-radius:var(--radius);font-size:13px;color:var(--text2);text-decoration:none;background:var(--bg2)}
+    .perfil-link svg{opacity:.5;flex-shrink:0;color:var(--musgo)}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
+    .lightbox.aberto{opacity:1;pointer-events:all;background:rgba(0,0,0,.9)}
+    .lightbox-img{max-width:100%;max-height:82vh;border-radius:8px;object-fit:contain}
+    .lb-close{position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+    /* Barra flutuante */
+    .barra{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1.5px solid var(--border2);padding:10px 16px 22px}
+    .barra-inner{max-width:420px;margin:0 auto}
+    .barra-resumo{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .barra-pedido{flex:1;min-width:0}
+    .barra-pedido-tam{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .barra-pedido-extras{font-size:11px;color:var(--text3);margin-top:2px}
+    .barra-pedido-prazo{font-size:11px;color:var(--musgo);font-weight:500;margin-top:1px}
+    .barra-total-wrap{text-align:right;flex-shrink:0;margin-left:14px}
+    .barra-total-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+    .barra-total-val{font-size:28px;font-weight:700;color:var(--musgo-dark);line-height:1.1}
+    .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--musgo-btn);color:var(--musgo-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
+    .btn-wpp:active{opacity:.82}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header"><p class="marca">unspredinhos · Bruno Lorenz</p></div>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn ativo" data-tab="orcamento">Orçamento</button>
+    <button class="tab-btn" data-tab="sobre">Sobre & trabalhos</button>
+  </nav>
+
+  <!-- ABA ORÇAMENTO -->
+  <div class="painel ativo" id="painel-orcamento">
+
+    <p class="sec-label">Tamanho</p>
+    <div class="tam-grid" id="tam-grid">
+      <div class="tam-card ativo" data-id="postal">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">Postal</div>
+          <div class="tam-card-cm">10 × 15 cm</div>
+        </div>
+        <div class="tam-card-preco">R$ 280</div>
+      </div>
+      <div class="tam-card" data-id="a5">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A5</div>
+          <div class="tam-card-cm">14 × 21 cm</div>
+        </div>
+        <div class="tam-card-preco">R$ 380</div>
+      </div>
+      <div class="tam-card" data-id="a4">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A4</div>
+          <div class="tam-card-cm">21 × 30 cm</div>
+        </div>
+        <div class="tam-card-preco">R$ 510</div>
+      </div>
+      <div class="tam-card" data-id="a3">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A3</div>
+          <div class="tam-card-cm">30 × 42 cm</div>
+        </div>
+        <div class="tam-card-preco">R$ 940</div>
+      </div>
+    </div>
+
+    <!-- Aviso formatos maiores -->
+    <div class="aviso-maior">
+      <span class="aviso-maior-icone">📐</span>
+      <div>
+        Pinto também em formatos maiores — <strong>A2, A1 e A0</strong>. Para peças grandes, valores e prazos são combinados diretamente.
+        <a href="https://wa.me/5551993115340?text=Ol%C3%A1%2C%20Bruno%21%20Tenho%20interesse%20em%20uma%20aquarela%20em%20formato%20maior%20(A2%2FA1%2FA0).%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"> Falar sobre formatos maiores →</a>
+      </div>
+    </div>
+
+    <p class="sec-label">Opções</p>
+
+    <div class="opcao-linha">
+      <div class="opcao-row">
+        <div class="opcao-info">
+          <div class="opcao-titulo">Moldura</div>
+          <div class="opcao-desc">Madeira natural, pronta para pendurar</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-moldura"><div class="t-track"><div class="t-thumb"></div></div></label>
+      </div>
+      <div class="expand" id="moldura-expand">
+        <div class="moldura-preview">
+          <!-- Substituir por <img src="URL" style="width:68px;height:68px;border-radius:6px;object-fit:cover;flex-shrink:0"> quando tiver foto -->
+          <div class="moldura-ph">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
+            <span>foto em breve</span>
+          </div>
+          <div>
+            <div class="moldura-nome">Moldura natural com vidro antirreflexo</div>
+            <div class="moldura-det">Madeira envernizada, vidro antirreflexo UV, passepartout branco. Acompanha suporte para parede.</div>
+            <div class="moldura-extra" id="moldura-extra">+ R$ 60</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="opcao-linha">
+      <div class="opcao-row">
+        <div class="opcao-info">
+          <div class="opcao-titulo">Cópias Fine Art <span class="badge">adicional</span></div>
+          <div class="opcao-desc">Giclée em papel 100% algodão, mesmo tamanho da original</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-copies"><div class="t-track"><div class="t-thumb"></div></div></label>
+      </div>
+      <div class="copies-expand" id="copies-expand">
+        <div class="copies-info">Reprodução fiel em papel fine art 100% algodão — ideal para presentear ou manter uma cópia.</div>
+        <div class="qty-row">
+          <label>Quantidade:</label>
+          <button class="qty-btn" id="qty-minus">−</button>
+          <span class="qty-val" id="qty-val">1</span>
+          <button class="qty-btn" id="qty-plus">+</button>
+          <span class="qty-unit" id="copia-unit"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="opcao-linha">
+      <div class="opcao-row">
+        <div class="opcao-info">
+          <div class="opcao-titulo">Entrega expressa <span class="badge">+30%</span></div>
+          <div class="opcao-desc">Prioridade na fila · prazo combinado individualmente</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-express"><div class="t-track"><div class="t-thumb"></div></div></label>
+      </div>
+    </div>
+
+    <!-- Resumo -->
+    <div class="resumo-box">
+      <div class="resumo-titulo">Resumo do pedido</div>
+      <div class="r-linha"><span id="r-tam">Postal (10 × 15 cm)</span><span id="r-base">R$ 280</span></div>
+      <div class="r-linha hidden" id="r-moldura-l"><span>Moldura</span><span id="r-moldura-v"></span></div>
+      <div class="r-linha hidden" id="r-copies-l"><span id="r-copies-label">1 cópia Fine Art</span><span id="r-copies-v"></span></div>
+      <div class="r-linha hidden" id="r-express-l"><span>Taxa expressa</span><span id="r-express-v"></span></div>
+      <hr class="r-divider">
+      <div class="r-total-linha"><span class="r-total-label">Total estimado</span><span class="r-total-val" id="r-total">R$ 280</span></div>
+    </div>
+
+    <!-- Pagamento -->
+    <div class="pgto-box">
+      <div class="pgto-header">Condições de pagamento</div>
+      <div class="pgto-parcelas">
+        <div class="pgto-parcela">
+          <div class="pgto-etapa">Entrada — 50%</div>
+          <div class="pgto-valor" id="pgto-entrada">R$ 140</div>
+          <div class="pgto-quando">Ao confirmar · garante sua vaga</div>
+        </div>
+        <div class="pgto-parcela">
+          <div class="pgto-etapa">Restante — 50%</div>
+          <div class="pgto-valor" id="pgto-restante">R$ 140</div>
+          <div class="pgto-quando">Quando a arte estiver pronta</div>
+        </div>
+      </div>
+      <div class="pgto-footer">PIX · Cartão em até 12×</div>
+    </div>
+
+    <div class="aviso">
+      <div class="aviso-dot"></div>
+      <div><strong style="font-weight:700;color:var(--musgo-dark)">Prazo atual:</strong> entrega prevista para a primeira semana de agosto de 2026. Entrega expressa: prazo combinado diretamente.</div>
+    </div>
+
+    <!-- COMO FUNCIONA -->
+    <div class="processo-box">
+      <div class="processo-header">
+        <div class="processo-header-titulo">Como funciona o processo</div>
+        <div class="processo-header-sub">Do pedido à aquarela na sua parede</div>
+      </div>
+      <div class="etapa">
+        <div class="etapa-num">1</div>
+        <div class="etapa-corpo">
+          <div class="etapa-titulo">Confirme o pedido e reserve sua vaga</div>
+          <div class="etapa-desc">Clique em "Falar com Bruno", envie o resumo e faça o sinal de 50%. Sua posição na fila fica garantida nesse momento.</div>
+        </div>
+      </div>
+      <div class="etapa destaque">
+        <div class="etapa-num">2</div>
+        <div class="etapa-corpo">
+          <div class="etapa-titulo">Mande as fotos quando quiser</div>
+          <div class="etapa-desc">Não precisa ter a foto agora. Você pode enviar depois pelo WhatsApp — fotos suas, de outra pessoa, do Google Maps, ou uma descrição do lugar.</div>
+          <span class="etapa-chip">Fotos podem ser enviadas depois</span>
+        </div>
+      </div>
+      <div class="etapa">
+        <div class="etapa-num">3</div>
+        <div class="etapa-corpo">
+          <div class="etapa-titulo">Acompanhe a pintura</div>
+          <div class="etapa-desc">Quando chegar sua vez, começo a pintura e envio uma prévia pelo WhatsApp para você acompanhar o processo.</div>
+        </div>
+      </div>
+      <div class="etapa">
+        <div class="etapa-num">4</div>
+        <div class="etapa-corpo">
+          <div class="etapa-titulo">Aprovação e pagamento final</div>
+          <div class="etapa-desc">Com a arte pronta, você aprova, paga os 50% restantes e envio com cuidado para qualquer lugar do Brasil.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /painel-orcamento -->
+
+  <!-- ABA SOBRE & TRABALHOS -->
+  <div class="painel" id="painel-sobre">
+    <div class="perfil-hero">
+      <!-- Substituir por <img src="URL" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--musgo-mid)"> quando tiver foto -->
+      <div class="perfil-foto">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div>
+        <div class="perfil-nome">Bruno Lorenz</div>
+        <div class="perfil-sub">Aquarelista · Porto Alegre, RS · @unspredinhos</div>
+      </div>
+    </div>
+    <p class="perfil-bio">Sou Bruno Lorenz, aquarelista localizado em Porto Alegre. Cada aquarela é pintada à mão, com calma e atenção aos detalhes que fazem uma casa ser uma casa. Trabalho a partir de fotos que você envia — pode ser uma foto antiga, uma imagem do Google Maps, ou só a lembrança de um lugar que você quer guardar.</p>
+    <div class="perfil-pills">
+      <span class="pill">Aquarela original</span>
+      <span class="pill">Entregue com cuidado</span>
+      <span class="pill">Memória que dura para sempre</span>
+    </div>
+    <p class="sec-label">Últimas aquarelas</p>
+    <!-- Para imagens reais: <div class="galeria-item" onclick="abrirLightbox('URL')"><img src="URL" alt="..."></div> -->
+    <div class="galeria-grid" id="galeria-grid"></div>
+    <p class="galeria-caption">Ver mais em <a href="https://www.brunolorenz.com.br/category/all-products" target="_blank">brunolorenz.com.br</a> · <a href="https://instagram.com/unspredinhos" target="_blank">@unspredinhos</a></p>
+    <div class="perfil-links">
+      <a href="https://www.brunolorenz.com.br/category/all-products" target="_blank" class="perfil-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+        brunolorenz.com.br
+      </a>
+      <a href="https://instagram.com/unspredinhos" target="_blank" class="perfil-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+        @unspredinhos
+      </a>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lb-close">✕</button>
+    <img class="lightbox-img" id="lb-img" src="" alt="">
+  </div>
+</div>
+
+<!-- BARRA FLUTUANTE -->
+<div class="barra">
+  <div class="barra-inner">
+    <div class="barra-resumo">
+      <div class="barra-pedido">
+        <div class="barra-pedido-tam" id="bf-tam">Postal · 10 × 15 cm</div>
+        <div class="barra-pedido-extras" id="bf-extras">sem adicionais</div>
+        <div class="barra-pedido-prazo" id="bf-prazo">Entrega: ago 2026</div>
+      </div>
+      <div class="barra-total-wrap">
+        <div class="barra-total-label">Total</div>
+        <div class="barra-total-val" id="bf-total">R$ 280</div>
+      </div>
+    </div>
+    <a id="btn-wpp" href="#" class="btn-wpp" target="_blank" rel="noopener">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com Bruno no WhatsApp
+    </a>
+  </div>
+</div>
+
+<script>
+var T={
+  postal:{nome:'Postal',cm:'10 × 15 cm',base:280,moldura:340,copiaBase:55,copiaLabel:'A4'},
+  a5:{nome:'A5',cm:'14 × 21 cm',base:380,moldura:490,copiaBase:55,copiaLabel:'A4'},
+  a4:{nome:'A4',cm:'21 × 30 cm',base:510,moldura:690,copiaBase:55,copiaLabel:'A4'},
+  a3:{nome:'A3',cm:'30 × 42 cm',base:940,moldura:1090,copiaBase:100,copiaLabel:'A3'}
+};
+function pc(id){return Math.round(T[id].copiaBase*1.8);}
+var E={tamanho:'postal',moldura:false,copies:false,qty:1,express:false};
+function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
+
+function atualizar(){
+  var t=T[E.tamanho],base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
+  var pco=pc(E.tamanho),copias=E.copies?pco*E.qty:0;
+  var exp=E.express?Math.round(base*.3):0;
+  var total=base+copias+exp,entrada=Math.round(total*.5),rest=total-entrada;
+
+  document.getElementById('r-tam').textContent=t.nome+' ('+t.cm+')'+(E.moldura?' + moldura':'');
+  document.getElementById('r-base').textContent=fmt(base);
+  document.getElementById('moldura-extra').textContent='+ '+fmt(diff);
+
+  var rl=document.getElementById('r-moldura-l');
+  if(E.moldura){rl.classList.remove('hidden');document.getElementById('r-moldura-v').textContent='+'+fmt(diff);}
+  else rl.classList.add('hidden');
+
+  var rc=document.getElementById('r-copies-l');
+  if(E.copies){
+    rc.classList.remove('hidden');
+    document.getElementById('r-copies-label').textContent=E.qty+' cóp'+(E.qty===1?'ia':'ias')+' Fine Art ('+t.copiaLabel+')';
+    document.getElementById('r-copies-v').textContent=fmt(copias);
+    document.getElementById('copia-unit').textContent=fmt(pco)+' / cópia';
+  } else rc.classList.add('hidden');
+
+  var re=document.getElementById('r-express-l');
+  if(E.express){re.classList.remove('hidden');document.getElementById('r-express-v').textContent=fmt(exp);}
+  else re.classList.add('hidden');
+
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('pgto-entrada').textContent=fmt(entrada);
+  document.getElementById('pgto-restante').textContent=fmt(rest);
+  document.getElementById('bf-tam').textContent=t.nome+' · '+t.cm;
+
+  var ex=[];
+  if(E.moldura)ex.push('moldura');
+  if(E.copies)ex.push(E.qty+' cóp'+(E.qty===1?'ia':'ias')+' Fine Art');
+  if(E.express)ex.push('expressa');
+  document.getElementById('bf-extras').textContent=ex.length?ex.join(' · '):'sem adicionais';
+  document.getElementById('bf-prazo').textContent=E.express?'Entrega: prazo a combinar':'Entrega: ago 2026';
+  document.getElementById('bf-total').textContent=fmt(total);
+
+  var l=['Olá, Bruno! Fiz o orçamento pelo site:\n','Tamanho: '+t.nome+' ('+t.cm+')'];
+  if(E.moldura)l.push('Com moldura');
+  if(E.copies)l.push('Cópias Fine Art: '+E.qty+' ('+t.copiaLabel+')');
+  if(E.express)l.push('Entrega expressa: sim');
+  l.push('\nTotal: '+fmt(total)+' · Entrada: '+fmt(entrada)+' · Restante: '+fmt(rest));
+  l.push('\nPoderia confirmar disponibilidade?');
+  document.getElementById('btn-wpp').href='https://wa.me/5551993115340?text='+encodeURIComponent(l.join('\n'));
+}
+
+(function(){
+  var g=document.getElementById('galeria-grid');
+  ['Casa','Predinho','Esquina','Sobrado','Vila','Bairro'].forEach(function(lb){
+    var d=document.createElement('div');d.className='galeria-item';
+    d.innerHTML='<svg class="galeria-ph-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="3" width="20" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="galeria-ph-label">'+lb+'</span>';
+    g.appendChild(d);
+  });
+})();
+
+function abrirLightbox(url){document.getElementById('lb-img').src=url;document.getElementById('lightbox').classList.add('aberto');}
+document.getElementById('lb-close').addEventListener('click',function(){document.getElementById('lightbox').classList.remove('aberto');});
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)this.classList.remove('aberto');});
+
+document.querySelectorAll('.tab-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('ativo');});
+    document.querySelectorAll('.painel').forEach(function(x){x.classList.remove('ativo');});
+    b.classList.add('ativo');
+    document.getElementById('painel-'+b.dataset.tab).classList.add('ativo');
+  });
+});
+
+document.getElementById('tam-grid').addEventListener('click',function(e){
+  var c=e.target.closest('.tam-card');if(!c)return;
+  document.querySelectorAll('.tam-card').forEach(function(x){x.classList.remove('ativo');});
+  c.classList.add('ativo');E.tamanho=c.dataset.id;atualizar();
+});
+
+document.getElementById('tog-moldura').addEventListener('change',function(){E.moldura=this.checked;document.getElementById('moldura-expand').classList.toggle('vis',this.checked);atualizar();});
+document.getElementById('tog-copies').addEventListener('change',function(){E.copies=this.checked;document.getElementById('copies-expand').classList.toggle('vis',this.checked);atualizar();});
+document.getElementById('tog-express').addEventListener('change',function(){E.express=this.checked;atualizar();});
+document.getElementById('qty-minus').addEventListener('click',function(){if(E.qty>1){E.qty--;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
+document.getElementById('qty-plus').addEventListener('click',function(){if(E.qty<10){E.qty++;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
+
+atualizar();
+</script>
+</body>
+</html>
