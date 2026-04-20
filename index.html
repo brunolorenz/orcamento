@@ -53,7 +53,7 @@
 
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'DM Sans',sans-serif;font-weight:400;color:var(--text);background:var(--bg);min-height:100vh}
-    .app{max-width:420px;margin:0 auto;padding-bottom:152px}
+    .app{max-width:420px;margin:0 auto;padding-bottom:196px}
 
     /* Header */
     .header{padding:28px 20px 0}
@@ -75,6 +75,8 @@
     .tam-card-info{flex:1;min-width:0}
     .tam-card-nome{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
     .tam-card-cm{font-size:11px;color:var(--text3)}
+    .tam-card-ref{font-size:10px;color:var(--text3);margin-top:3px;font-style:italic;opacity:.85}
+    .tam-card.ativo .tam-card-ref{color:var(--musgo);opacity:1}
     .tam-card.ativo .tam-card-nome{color:var(--musgo-dark)}
     .tam-card.ativo .tam-card-cm{color:var(--musgo)}
     .tam-card-preco{font-size:15px;font-weight:600;color:var(--text);flex-shrink:0}
@@ -172,7 +174,12 @@
     .perfil-nome{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2}
     .perfil-sub{font-size:12px;color:var(--text3);line-height:1.5}
     .perfil-bio{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:18px}
-    .perfil-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+    .perfil-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+    .avaliacoes-link{display:flex;align-items:center;gap:10px;padding:11px 14px;margin-bottom:22px;border:1px solid var(--musgo-mid);border-radius:var(--radius);background:var(--musgo-light);text-decoration:none;color:var(--musgo-dark);transition:background .15s}
+    .avaliacoes-link:active{background:var(--bg2)}
+    .avaliacoes-estrelas{font-size:13px;letter-spacing:1px;color:#f5b800}
+    .avaliacoes-texto{font-size:12.5px;font-weight:500;flex:1;line-height:1.4}
+    .avaliacoes-seta{font-size:14px;color:var(--musgo);flex-shrink:0}
     .pill{font-size:12px;font-weight:500;color:var(--musgo-dark);background:var(--musgo-light);border:1px solid var(--musgo-mid);border-radius:20px;padding:6px 14px;white-space:nowrap}
     .galeria-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
     .galeria-item{aspect-ratio:1;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--musgo-light);border:1px solid var(--musgo-mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
@@ -205,6 +212,8 @@
     .barra-total-val{font-size:28px;font-weight:700;color:var(--musgo-dark);line-height:1.1}
     .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--musgo-btn);color:var(--musgo-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
     .btn-wpp:active{opacity:.82}
+    .btn-microcopy{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;line-height:1.4}
+    .btn-microcopy a{color:var(--musgo);font-weight:600;text-decoration:none}
     .hidden{display:none!important}
 
     /* ══ DESKTOP (≥800px) ══ */
@@ -302,6 +311,7 @@
         <div class="tam-card-info">
           <div class="tam-card-nome">Postal</div>
           <div class="tam-card-cm">10 × 15 cm</div>
+          <div class="tam-card-ref">tamanho de um cartão</div>
         </div>
         <div class="tam-card-preco">R$ 280</div>
       </div>
@@ -309,6 +319,7 @@
         <div class="tam-card-info">
           <div class="tam-card-nome">A5</div>
           <div class="tam-card-cm">14 × 21 cm</div>
+          <div class="tam-card-ref">meia folha ofício</div>
         </div>
         <div class="tam-card-preco">R$ 380</div>
       </div>
@@ -316,6 +327,7 @@
         <div class="tam-card-info">
           <div class="tam-card-nome">A4</div>
           <div class="tam-card-cm">21 × 30 cm</div>
+          <div class="tam-card-ref">uma folha ofício</div>
         </div>
         <div class="tam-card-preco">R$ 510</div>
       </div>
@@ -323,6 +335,7 @@
         <div class="tam-card-info">
           <div class="tam-card-nome">A3</div>
           <div class="tam-card-cm">30 × 42 cm</div>
+          <div class="tam-card-ref">duas folhas ofício</div>
         </div>
         <div class="tam-card-preco">R$ 940</div>
       </div>
@@ -365,7 +378,7 @@
     <div class="opcao-linha">
       <div class="opcao-row">
         <div class="opcao-info">
-          <div class="opcao-titulo">Cópias Fine Art <span class="badge">adicional</span></div>
+          <div class="opcao-titulo">Cópias Fine Art <span class="badge" id="badge-copia">+R$ 36/un</span></div>
           <div class="opcao-desc">Cópias em papel 100% algodão, mesmo tamanho da original</div>
         </div>
         <label class="toggle"><input type="checkbox" id="tog-copies"><div class="t-track"><div class="t-thumb"></div></div></label>
@@ -503,6 +516,11 @@
       <span class="pill">Papel 100% algodão</span>
       <span class="pill">Acompanha certificado de autenticidade</span>
     </div>
+    <a class="avaliacoes-link" href="https://www.google.com/search?q=uns+predinhos+google+maps&sourceid=chrome&ie=UTF-8#" target="_blank" rel="noopener">
+      <span class="avaliacoes-estrelas">★★★★★</span>
+      <span class="avaliacoes-texto">Ver avaliações de quem já encomendou</span>
+      <span class="avaliacoes-seta">→</span>
+    </a>
     <p class="sec-label">Últimas aquarelas</p>
     <!-- Para imagens reais: <div class="galeria-item" onclick="abrirLightbox('URL')"><img src="URL" alt="..."></div> -->
     <div class="galeria-grid" id="galeria-grid"></div>
@@ -539,6 +557,10 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Falar com Bruno no WhatsApp
     </a>
+    <div class="btn-microcopy">
+      Sem compromisso — você só confirma se fechar o pedido.<br>
+      Ou me siga no <a href="https://instagram.com/unspredinhos" target="_blank" rel="noopener">@unspredinhos</a> pra saber quando a próxima agenda abrir.
+    </div>
   </div>
 </div>
 </div><!-- /desktop-shell -->
@@ -589,6 +611,7 @@ function atualizar(){
   document.getElementById('pgto-entrada').textContent=fmt(entrada);
   document.getElementById('pgto-restante').textContent=fmt(rest);
   document.getElementById('bf-tam').textContent=t.nome+' · '+t.cm;
+  document.getElementById('badge-copia').textContent='+'+fmt(pco)+'/un';
 
   var ex=[];
   if(E.moldura)ex.push('moldura');
