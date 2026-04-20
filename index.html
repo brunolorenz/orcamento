@@ -53,7 +53,7 @@
 
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'DM Sans',sans-serif;font-weight:400;color:var(--text);background:var(--bg);min-height:100vh}
-    .app{max-width:420px;margin:0 auto;padding-bottom:196px}
+    .app{max-width:420px;margin:0 auto;padding-bottom:150px}
 
     /* Header */
     .header{padding:28px 20px 0}
@@ -200,19 +200,19 @@
     .lb-close{position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
     /* Barra flutuante */
-    .barra{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1.5px solid var(--border2);padding:10px 16px 22px}
+    .barra{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1.5px solid var(--border2);padding:8px 16px calc(10px + env(safe-area-inset-bottom))}
     .barra-inner{max-width:420px;margin:0 auto}
-    .barra-resumo{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .barra-resumo{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
     .barra-pedido{flex:1;min-width:0}
     .barra-pedido-tam{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .barra-pedido-extras{font-size:11px;color:var(--text3);margin-top:2px}
     .barra-pedido-prazo{font-size:11px;color:var(--musgo);font-weight:500;margin-top:1px}
     .barra-total-wrap{text-align:right;flex-shrink:0;margin-left:14px}
     .barra-total-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
-    .barra-total-val{font-size:28px;font-weight:700;color:var(--musgo-dark);line-height:1.1}
-    .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--musgo-btn);color:var(--musgo-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
+    .barra-total-val{font-size:24px;font-weight:700;color:var(--musgo-dark);line-height:1.1}
+    .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--musgo-btn);color:var(--musgo-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
     .btn-wpp:active{opacity:.82}
-    .btn-microcopy{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;line-height:1.4}
+    .btn-microcopy{font-size:11px;color:var(--text3);text-align:center;margin-top:6px;line-height:1.4}
     .btn-microcopy a{color:var(--musgo);font-weight:600;text-decoration:none}
     .hidden{display:none!important}
 
@@ -251,7 +251,8 @@
       .painel { padding: 20px 24px; }
 
       /* Sobre = right column, row 1 — natural height, no scroll */
-      #painel-sobre {
+      /* Só aplica quando o JS já moveu o painel pra filho direto de .desktop-shell; evita flash durante load */
+      .desktop-shell > #painel-sobre {
         grid-column: 2;
         grid-row: 1;
         display: block !important;
@@ -261,6 +262,8 @@
         padding: 28px;
         align-self: start;
       }
+      /* Esconde enquanto ainda estiver dentro de .app (pré-JS) */
+      .app #painel-sobre { display: none !important; }
 
       /* Barra = right column, row 2 — sticky to bottom of viewport */
       .barra {
@@ -488,14 +491,7 @@
   </div><!-- /painel-orcamento -->
 
   <!-- ABA SOBRE & TRABALHOS -->
-
-  <div class="lightbox" id="lightbox">
-    <button class="lb-close" id="lb-close">✕</button>
-    <img class="lightbox-img" id="lb-img" src="" alt="">
-  </div>
-</div>
-
-<div class="painel" id="painel-sobre">
+  <div class="painel" id="painel-sobre">
     <div class="perfil-hero">
       <img src="img/perfil.jpeg" alt="Bruno Lorenz" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--musgo-mid)">
       <div>
@@ -503,7 +499,7 @@
         <div class="perfil-sub">Aquarelista · Porto Alegre, RS · @unspredinhos</div>
       </div>
     </div>
-    <p class="perfil-bio">Sou Bruno Lorenz, aquarelista vivendo em Porto Alegre. Faço pinuras de locais importantes para a memória das pessoas: o predinho da infância, a casa da vó, a morada na praia. Cada aquarela é pintada à mão, com calma e atenção aos detalhes que fazem uma casa ser uma casa. Trabalho a partir de fotos que você envia — pode ser uma foto antiga, uma imagem do Google Maps ou até mesmo um descrição da sua memória do local.</p>
+    <p class="perfil-bio">Sou Bruno Lorenz, aquarelista localizado em Porto Alegre. Cada aquarela é pintada à mão, com calma e atenção aos detalhes que fazem uma casa ser uma casa. Trabalho a partir de fotos que você envia — pode ser uma foto antiga, uma imagem do Google Maps, ou só a lembrança de um lugar que você quer guardar.</p>
     <div class="perfil-pills">
       <span class="pill">Aquarela original</span>
       <span class="pill">Papel 100% algodão</span>
@@ -515,7 +511,6 @@
       <span class="avaliacoes-seta">→</span>
     </a>
     <p class="sec-label">Últimas aquarelas</p>
-    <!-- Para imagens reais: <div class="galeria-item" onclick="abrirLightbox('URL')"><img src="URL" alt="..."></div> -->
     <div class="galeria-grid" id="galeria-grid"></div>
     <p class="galeria-caption">Ver mais em <a href="https://www.brunolorenz.com.br/category/all-products" target="_blank">brunolorenz.com.br</a> · <a href="https://instagram.com/unspredinhos" target="_blank">@unspredinhos</a></p>
     <div class="perfil-links">
@@ -529,6 +524,13 @@
       </a>
     </div>
   </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lb-close">✕</button>
+    <img class="lightbox-img" id="lb-img" src="" alt="">
+  </div>
+</div><!-- /.app -->
+
 
 
 
@@ -551,7 +553,7 @@
       Falar com Bruno no WhatsApp
     </a>
     <div class="btn-microcopy">
-      Sem compromisso — você só confirma se fechar o pedido.<br>
+      Sem compromisso — você só confirma se fechar o pedido.
     </div>
   </div>
 </div>
@@ -661,6 +663,24 @@ document.getElementById('tog-express').addEventListener('change',function(){E.ex
 document.getElementById('tog-silhueta').addEventListener('change',function(){E.silhueta=this.checked;atualizar();});
 document.getElementById('qty-minus').addEventListener('click',function(){if(E.qty>1){E.qty--;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
 document.getElementById('qty-plus').addEventListener('click',function(){if(E.qty<10){E.qty++;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
+
+// Move painel-sobre: dentro de .app no mobile (comportamento de aba) / filho direto de .desktop-shell no desktop (coluna direita)
+(function(){
+  var mql=window.matchMedia('(min-width: 800px)');
+  var painel=document.getElementById('painel-sobre');
+  var app=document.querySelector('.app');
+  var shell=document.querySelector('.desktop-shell');
+  function place(){
+    if(mql.matches){
+      if(painel.parentNode!==shell)shell.appendChild(painel);
+    }else{
+      if(painel.parentNode!==app)app.appendChild(painel);
+    }
+  }
+  place();
+  if(mql.addEventListener)mql.addEventListener('change',place);
+  else mql.addListener(place);
+})();
 
 atualizar();
 </script>
