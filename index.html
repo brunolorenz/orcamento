@@ -305,7 +305,7 @@
   <!-- ABA ORÇAMENTO -->
   <div class="painel ativo" id="painel-orcamento">
 
-    <p class="sec-label">Slecione o Tamanho da Pintura</p>
+    <p class="sec-label">Selecione o tamanho da pintura</p>
     <div class="tam-grid" id="tam-grid">
       <div class="tam-card ativo" data-id="postal">
         <div class="tam-card-info">
@@ -362,13 +362,9 @@
       </div>
       <div class="expand" id="moldura-expand">
         <div class="moldura-preview">
-          <!-- Para foto real: substituir .moldura-ph por <img src="URL" class="moldura-img" alt="Moldura"> -->
-          <div class="moldura-ph">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
-            <span>foto em breve</span>
-          </div>
+          <img src="img/moldura.jpeg" class="moldura-img" alt="Moldura caixa de madeira natural">
           <div class="moldura-info">
-            <div class="moldura-nome">Moldura caixa de madeira natural com vidro e caixa</div>
+            <div class="moldura-nome">Moldura caixa de madeira natural com vidro e fundo</div>
             <div class="moldura-extra" id="moldura-extra">+ R$ 60</div>
           </div>
         </div>
@@ -501,10 +497,7 @@
 
 <div class="painel" id="painel-sobre">
     <div class="perfil-hero">
-      <!-- Substituir por <img src="URL" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--musgo-mid)"> quando tiver foto -->
-      <div class="perfil-foto">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </div>
+      <img src="img/perfil.jpeg" alt="Bruno Lorenz" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--musgo-mid)">
       <div>
         <div class="perfil-nome">Bruno Lorenz</div>
         <div class="perfil-sub">Aquarelista · Porto Alegre, RS · @unspredinhos</div>
@@ -634,9 +627,12 @@ function atualizar(){
 
 (function(){
   var g=document.getElementById('galeria-grid');
-  ['Casa','Predinho','Esquina','Sobrado','Vila','Bairro'].forEach(function(lb){
-    var d=document.createElement('div');d.className='galeria-item';
-    d.innerHTML='<svg class="galeria-ph-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="3" width="20" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="galeria-ph-label">'+lb+'</span>';
+  var imgs=['3exemplo.jpeg','5exemplo.jpeg','7exemplo.jpeg','8exemplo.jpeg'];
+  imgs.forEach(function(nome){
+    var d=document.createElement('div');
+    d.className='galeria-item';
+    d.onclick=function(){abrirLightbox('img/'+nome);};
+    d.innerHTML='<img src="img/'+nome+'" alt="Aquarela de Bruno Lorenz" loading="lazy">';
     g.appendChild(d);
   });
 })();
