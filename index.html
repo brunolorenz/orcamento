@@ -408,7 +408,7 @@
       <div class="opcao-row">
         <div class="opcao-info">
           <div class="opcao-titulo">Silhueta de pessoas <span class="badge">+10%</span></div>
-          <div class="opcao-desc">Inclui uma ou mais silhuetas na cena (seus avós, pai e mãe, etc...)</div>
+          <div class="opcao-desc">Inclui uma ou mais silhuetas na cena, dando escala e vida à pintura</div>
         </div>
         <label class="toggle"><input type="checkbox" id="tog-silhueta"><div class="t-track"><div class="t-thumb"></div></div></label>
       </div>
@@ -573,8 +573,8 @@ function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
 function atualizar(){
   var t=T[E.tamanho],base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
   var pco=pc(E.tamanho),copias=E.copies?pco*E.qty:0;
-  var exp=E.express?Math.round(base*.3):0;
-  var sil=E.silhueta?Math.round(base*.1):0;
+  var exp=E.express?Math.round(t.base*.3):0;
+  var sil=E.silhueta?Math.round(t.base*.1):0;
   var total=base+copias+exp+sil,entrada=Math.round(total*.5),rest=total-entrada;
 
   document.getElementById('r-tam').textContent=t.nome+' ('+t.cm+')'+(E.moldura?' + moldura':'');
