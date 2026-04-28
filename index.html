@@ -82,10 +82,6 @@
     .tam-card-preco{font-size:15px;font-weight:600;color:var(--text);flex-shrink:0}
     .tam-card.ativo .tam-card-preco{color:var(--musgo-dark)}
 
-    /* Aviso formatos maiores */
-    .aviso-maior{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;margin-top:8px;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--bg2)}
-    .aviso-maior-icone{font-size:16px;flex-shrink:0;margin-top:1px}
-    .aviso-maior a{color:var(--musgo);font-weight:600;text-decoration:none}
 
     /* Opções */
     .opcao-linha{padding:16px 0;border-top:1px solid var(--border2);-webkit-tap-highlight-color:transparent}
@@ -342,16 +338,32 @@
         </div>
         <div class="tam-card-preco">R$ 940</div>
       </div>
-    </div>
-
-    <!-- Aviso formatos maiores -->
-    <div class="aviso-maior">
-      <span class="aviso-maior-icone">📐</span>
-      <div>
-        Pinto também em formatos maiores — <strong>A2, A1 e A0</strong>. Para peças grandes, valores e prazos são combinados diretamente.
-        <a href="https://wa.me/5551993115340?text=Ol%C3%A1%2C%20Bruno%21%20Tenho%20interesse%20em%20uma%20aquarela%20em%20formato%20maior%20(A2%2FA1%2FA0).%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"> Falar sobre formatos maiores →</a>
+      <div class="tam-card" data-id="a2">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A2</div>
+          <div class="tam-card-cm">42 × 59 cm</div>
+          <div class="tam-card-ref">quadro médio</div>
+        </div>
+        <div class="tam-card-preco">R$ 1.490</div>
+      </div>
+      <div class="tam-card" data-id="a1">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A1</div>
+          <div class="tam-card-cm">59 × 84 cm</div>
+          <div class="tam-card-ref">quadro grande</div>
+        </div>
+        <div class="tam-card-preco">R$ 2.290</div>
+      </div>
+      <div class="tam-card" data-id="a0">
+        <div class="tam-card-info">
+          <div class="tam-card-nome">A0</div>
+          <div class="tam-card-cm">84 × 119 cm</div>
+          <div class="tam-card-ref">formato monumental</div>
+        </div>
+        <div class="tam-card-preco">R$ 3.490</div>
       </div>
     </div>
+
 
     <p class="sec-label">Opções Extras</p>
 
@@ -561,17 +573,28 @@
 
 <script>
 var T={
-  postal:{nome:'Postal',cm:'10 × 15 cm',base:280,moldura:340,copiaBase:20,copiaLabel:'A6'},
-  a5:{nome:'A5',cm:'14 × 21 cm',base:380,moldura:490,copiaBase:30,copiaLabel:'A5'},
-  a4:{nome:'A4',cm:'21 × 30 cm',base:510,moldura:690,copiaBase:55,copiaLabel:'A4'},
-  a3:{nome:'A3',cm:'30 × 42 cm',base:940,moldura:1090,copiaBase:100,copiaLabel:'A3'}
+  postal:{nome:'Postal',cm:'10 × 15 cm',base:280, moldura:340, temMoldura:true, copiaBase:20, copiaLabel:'A6'},
+  a5:    {nome:'A5',    cm:'14 × 21 cm',base:380, moldura:490, temMoldura:true, copiaBase:30, copiaLabel:'A5'},
+  a4:    {nome:'A4',    cm:'21 × 30 cm',base:510, moldura:690, temMoldura:true, copiaBase:55, copiaLabel:'A4'},
+  a3:    {nome:'A3',    cm:'30 × 42 cm',base:940, moldura:1090,temMoldura:true, copiaBase:100,copiaLabel:'A3'},
+  a2:    {nome:'A2',    cm:'42 × 59 cm',base:1490,moldura:1490,temMoldura:false,copiaBase:205,copiaLabel:'A2'},
+  a1:    {nome:'A1',    cm:'59 × 84 cm',base:2290,moldura:2290,temMoldura:false,copiaBase:340,copiaLabel:'A1'},
+  a0:    {nome:'A0',    cm:'84 × 119 cm',base:3490,moldura:3490,temMoldura:false,copiaBase:600,copiaLabel:'A0'}
 };
 function pc(id){return Math.round(T[id].copiaBase*1.8);}
 var E={tamanho:'postal',moldura:false,copies:false,qty:1,express:false,silhueta:false};
 function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
 
 function atualizar(){
-  var t=T[E.tamanho],base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
+  var t=T[E.tamanho];
+  var togMEl=document.getElementById('tog-moldura');
+  if(togMEl){
+    if(!t.temMoldura&&E.moldura){E.moldura=false;togMEl.checked=false;document.getElementById('moldura-expand').classList.remove('vis');}
+    togMEl.disabled=!t.temMoldura;
+    togMEl.closest('.opcao-linha').style.opacity=t.temMoldura?'1':'0.38';
+    togMEl.closest('.opcao-linha').style.pointerEvents=t.temMoldura?'':'none';
+  }
+  var base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
   var pco=pc(E.tamanho),copias=E.copies?pco*E.qty:0;
   var exp=E.express?Math.round(t.base*.3):0;
   var sil=E.silhueta?Math.round(t.base*.1):0;
