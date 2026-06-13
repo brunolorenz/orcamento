@@ -428,7 +428,7 @@
 
      <div class="aviso">
       <div class="aviso-dot"></div>
-      <div><strong style="font-weight:700;color:var(--musgo-dark)">Prazo atual:</strong> entrega prevista para a última semana de agosto de 2026. Entrega expressa: prazo combinado diretamente.</div>
+      <div><strong style="font-weight:700;color:var(--musgo-dark)">Prazo atual:</strong> entrega prevista para a primeira semana de setembro de 2026. Entrega expressa: prazo combinado diretamente.</div>
     </div>
 
     <!-- Resumo -->
@@ -596,7 +596,7 @@ function atualizar(){
   }
   var base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
   var pco=pc(E.tamanho),copias=E.copies?pco*E.qty:0;
-  var exp=E.express?Math.round(t.base*.3):0;
+  var exp=E.express?Math.round(t.base*.1):0;
   var sil=E.silhueta?Math.round(t.base*.1):0;
   var total=base+copias+exp+sil,entrada=Math.round(total*.5),rest=total-entrada;
 
