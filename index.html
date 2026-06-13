@@ -410,7 +410,7 @@
       <div class="opcao-row">
         <div class="opcao-info">
           <div class="opcao-titulo">Entrega expressa <span class="badge">+10%</span></div>
-          <div class="opcao-desc">Prioridade na fila · prazo combinado individualmente</div>
+          <div class="opcao-desc">Prioridade na fila · Entrega em 1ª Semana de Agosto</div>
         </div>
         <label class="toggle"><input type="checkbox" id="tog-express"><div class="t-track"><div class="t-thumb"></div></div></label>
       </div>
@@ -553,7 +553,7 @@
       <div class="barra-pedido">
         <div class="barra-pedido-tam" id="bf-tam">Postal · 10 × 15 cm</div>
         <div class="barra-pedido-extras" id="bf-extras">sem adicionais</div>
-        <div class="barra-pedido-prazo" id="bf-prazo">Entrega: ago 2026</div>
+        <div class="barra-pedido-prazo" id="bf-prazo">Entrega: Setembro 2026</div>
       </div>
       <div class="barra-total-wrap">
         <div class="barra-total-label">Total</div>
@@ -637,7 +637,7 @@ function atualizar(){
   if(E.express)ex.push('expressa');
   if(E.silhueta)ex.push('silhueta');
   document.getElementById('bf-extras').textContent=ex.length?ex.join(' · '):'sem adicionais';
-  document.getElementById('bf-prazo').textContent=E.express?'Entrega: prazo a combinar':'Entrega: ago 2026';
+  document.getElementById('bf-prazo').textContent=E.express?'Entrega: prazo a combinar':'Entrega: Set 2026';
   document.getElementById('bf-total').textContent=fmt(total);
 
   var l=['Olá, Bruno! Fiz o orçamento pelo site:\n','Tamanho: '+t.nome+' ('+t.cm+')'];
