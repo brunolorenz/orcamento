@@ -581,7 +581,7 @@ var T={
   a1:    {nome:'A1',    cm:'59 × 84 cm',base:2290,moldura:2290,temMoldura:false,copiaBase:340,copiaLabel:'A1'},
   a0:    {nome:'A0',    cm:'84 × 119 cm',base:3490,moldura:3490,temMoldura:false,copiaBase:600,copiaLabel:'A0'}
 };
-function pc(id){return Math.round(T[id].copiaBase*1.8);}
+function pc(id){return Math.round(T[id].copiaBase*2.5);}
 var E={tamanho:'postal',moldura:false,copies:false,qty:1,express:false,silhueta:false};
 function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
 
