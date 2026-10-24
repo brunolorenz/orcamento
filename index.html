@@ -157,6 +157,20 @@
     .form-box{margin-top:22px}
     .opcional{font-weight:400;letter-spacing:.04em;text-transform:none}
     .campo-dica{font-size:12px;color:var(--text3);line-height:1.5}
+    .depoimentos{margin:18px 0 22px}
+    .dep-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .dep-track::-webkit-scrollbar{display:none}
+    .dep-card{flex:0 0 100%;scroll-snap-align:center;margin:0;padding:16px 16px 14px;border:1.5px solid var(--azul-mid);border-radius:var(--radius-lg);background:var(--azul-light);display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+    .dep-texto{margin:0;font-size:14px;line-height:1.6;color:var(--text)}
+    .dep-fonte{margin:0;font-size:12px;line-height:1.5;color:var(--text3)}
+    .dep-fonte em{font-style:italic;font-weight:600;color:var(--azul)}
+    .dep-fonte a{color:var(--azul);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+    .dep-rodape{display:flex;justify-content:center;margin-top:6px}
+    .dep-dots{display:flex;justify-content:center}
+    .dep-dot{position:relative;width:22px;height:22px;padding:0;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .dep-dot::before{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--azul-mid);transition:width .25s,margin .25s,background .25s}
+    .dep-dot.ativo::before{width:18px;margin-left:-9px;border-radius:4px;background:var(--azul)}
+
 
     /* Aviso prazo */
     .aviso{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:13px 14px;border:1px solid var(--azul-mid);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--azul-light)}
@@ -321,6 +335,14 @@
     <div class="tam-grid" id="tam-grid">
     </div>
 
+
+    <!-- Depoimentos -->
+    <div class="depoimentos" id="depoimentos" role="region" aria-roledescription="carrossel" aria-label="Depoimentos de clientes">
+      <div class="dep-track" id="dep-track"></div>
+      <div class="dep-rodape">
+        <div class="dep-dots" id="dep-dots"></div>
+      </div>
+    </div>
 
     <p class="sec-label">Opções Extras</p>
 
@@ -503,7 +525,7 @@
       <span class="pill">Papel 100% algodão</span>
       <span class="pill">Acompanha certificado de autenticidade</span>
     </div>
-    <a class="avaliacoes-link" href="https://www.google.com/search?q=uns+predinhos+google+maps" target="_blank" rel="noopener">
+    <a class="avaliacoes-link" href="https://www.google.com/maps/place/Uns+Predinhos/@-30.0199762,-51.2094818,17z/data=!4m8!3m7!1s0x951979ee17912a89:0x14ad1f46fd426a16!8m2!3d-30.0199762!4d-51.2094818!9m1!1b1!16s%2Fg%2F11x1p87vbf" target="_blank" rel="noopener">
       <span class="avaliacoes-estrelas">★★★★★</span>
       <span class="avaliacoes-texto">Ver avaliações de quem já encomendou</span>
       <span class="avaliacoes-seta">→</span>
@@ -561,6 +583,14 @@
 // ── CONFIGURAÇÃO: preços, prazo e taxas ficam só aqui ──
 var PRAZO='Janeiro de 2027';
 var TAXA_EXTRA=0.10; // entrega expressa e silhueta: % sobre o preço da pintura (sem moldura)
+// Depoimentos (Avaliações do Google). Para mostrar o nome: {autor:'Nome', texto:'...'} · lista vazia = esconde o carrossel
+var DEPOIMENTOS=[
+  {texto:"O trabalho do Bruno é impecável! Já tive experiência com duas artes que ele efetuou, e é indescritível a sensação que ele nos causa através dos desenhos. Fico emocionada com a riqueza de detalhes e com o sentimento de acalento que as aquarelas transmitem."},
+  {texto:"AMEI o trabalho do Bruno! Desde o primeiro atendimento ele foi super atencioso. Durante o processo conversamos bastante sobre o que era importante pra mim nas pinturas e ele conseguiu retratar exatamente aquilo que eu esperava."},
+  {texto:"Encomendar uma arte com o Bruno foi uma experiência maravilhosa. Além do talento incrível, o que mais me marcou foi o cuidado e a sensibilidade com que ele ouviu a história por trás da minha encomenda."},
+  {texto:"Bruno é muito solícito e talentoso :) Amei a arte do meu predinho preferido! Super recomendo!"}
+];
+var LINK_AVALIACOES='https://share.google/C3QvFA88iM6EjvNk8'; // destino do "leia todas aqui" em cada depoimento
 var VAGAS=10; // vagas restantes para o prazo acima (10 por mês): diminua a cada pedido fechado · null = não mostrar · 0 = esgotado / lista de espera
 // Cartão: quanto o cliente paga, para cada R$ 1,00 líquido que você recebe, por número de parcelas (tabela da operadora, medida sobre R$ 100)
 var JUROS_CARTAO={1:1,2:1.0649,3:1.0754,4:1.0859,5:1.0965,6:1.1071,7:1.1441,8:1.1551,9:1.1662,10:1.1774,11:1.1887,12:1.2};
@@ -580,6 +610,54 @@ function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
 function fmtc(n){return 'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
 // valor de cada parcela no cartão, em centavos (arredondado para cima, como a operadora)
 function parcelaCartaoCent(total,n){return Math.ceil(total*100*JUROS_CARTAO[n]/n-1e-6);}
+function montarDepoimentos(){
+  var box=document.getElementById('depoimentos');
+  if(!DEPOIMENTOS.length){box.classList.add('hidden');return;}
+  var track=document.getElementById('dep-track'),dots=document.getElementById('dep-dots');
+  var reduz=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  DEPOIMENTOS.forEach(function(d,i){
+    var c=document.createElement('figure');c.className='dep-card';
+    var q=document.createElement('blockquote');q.className='dep-texto';q.textContent='“'+d.texto+'”';
+    var f=document.createElement('figcaption');f.className='dep-fonte';
+    if(d.autor)f.appendChild(document.createTextNode(d.autor+' · '));
+    var em=document.createElement('em');em.textContent='Avaliação no Google';f.appendChild(em);
+    f.appendChild(document.createTextNode(' · '));
+    var a=document.createElement('a');a.href=LINK_AVALIACOES;a.target='_blank';a.rel='noopener';a.textContent='leia todas aqui';f.appendChild(a);
+    c.appendChild(q);c.appendChild(f);track.appendChild(c);
+    var b=document.createElement('button');b.type='button';b.className='dep-dot'+(i===0?' ativo':'');
+    b.setAttribute('aria-label','Depoimento '+(i+1)+' de '+DEPOIMENTOS.length);
+    b.addEventListener('click',function(){ir(i,true);});
+    dots.appendChild(b);
+  });
+  var cards=track.children,idx=0,pausaAte=0,hover=false,raf=0;
+  function passo(){return cards.length>1?cards[1].offsetLeft-cards[0].offsetLeft:track.clientWidth;}
+  function marcar(i){idx=i;Array.prototype.forEach.call(dots.children,function(b,k){b.classList.toggle('ativo',k===i);});}
+  function ir(i,manual){
+    if(manual)pausaAte=Date.now()+12000;
+    var x=i*passo();
+    if(track.scrollTo)track.scrollTo({left:x,behavior:reduz?'auto':'smooth'});else track.scrollLeft=x;
+    marcar(i);
+  }
+  track.addEventListener('scroll',function(){
+    if(raf)return;
+    raf=requestAnimationFrame(function(){
+      raf=0;var p=passo()||1;
+      var i=Math.max(0,Math.min(cards.length-1,Math.round(track.scrollLeft/p)));
+      if(i!==idx)marcar(i);
+    });
+  },{passive:true});
+  ['touchstart','pointerdown','keydown','focusin'].forEach(function(ev){
+    track.addEventListener(ev,function(){pausaAte=Date.now()+12000;},{passive:true});
+  });
+  box.addEventListener('mouseenter',function(){hover=true;});
+  box.addEventListener('mouseleave',function(){hover=false;});
+  if(!reduz&&cards.length>1){
+    setInterval(function(){
+      if(document.hidden||hover||Date.now()<pausaAte)return;
+      ir((idx+1)%cards.length,false);
+    },6500);
+  }
+}
 function montarParcelas(){
   var sel=document.getElementById('sel-parcelas');
   for(var n=1;n<=12;n++){var o=document.createElement('option');o.value=n;sel.appendChild(o);}
@@ -747,6 +825,7 @@ document.getElementById('qty-plus').addEventListener('click',function(){if(E.qty
 
 montarCards();
 montarParcelas();
+montarDepoimentos();
 if(VAGAS!==null){
   var av=document.getElementById('aviso-vagas');
   av.textContent=VAGAS===0?'Vagas esgotadas — fale comigo para entrar na lista de espera.':(VAGAS===1?'Resta 1 vaga':'Restam '+VAGAS+' vagas')+' para esse prazo.';
