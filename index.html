@@ -2,19 +2,19 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Orçamento · unspredinhos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encomendas 2027 · Uns Predinhos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <style>
     /* ── LIGHT MODE ── */
     :root {
-      --musgo:#3d5230;
-      --musgo-light:#e5ebe0;
-      --musgo-mid:#9db08c;
-      --musgo-dark:#1e2d15;
-      --musgo-btn:#3d5230;
-      --musgo-btn-text:#ffffff;
+      --azul:#27466b;
+      --azul-light:#e4ecf5;
+      --azul-mid:#93adc9;
+      --azul-dark:#142a45;
+      --azul-btn:#27466b;
+      --azul-btn-text:#ffffff;
       --bg:#ffffff;
       --bg2:#eeeeec;
       --bg3:#e4e4e2;
@@ -31,12 +31,12 @@
     /* ── DARK MODE ── */
     @media (prefers-color-scheme: dark) {
       :root {
-        --musgo:#7aab62;
-        --musgo-light:#1e2d1a;
-        --musgo-mid:#4a6e3a;
-        --musgo-dark:#aed69a;
-        --musgo-btn:#5a8a46;
-        --musgo-btn-text:#ffffff;
+        --azul:#7fb0e0;
+        --azul-light:#172536;
+        --azul-mid:#3a6592;
+        --azul-dark:#b5d3f0;
+        --azul-btn:#3f6fa3;
+        --azul-btn-text:#ffffff;
         --bg:#141414;
         --bg2:#1f1f1f;
         --bg3:#2a2a2a;
@@ -57,12 +57,13 @@
 
     /* Header */
     .header{padding:28px 20px 0}
-    .marca{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--musgo)}
+    .marca{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--azul)}
+    .titulo-pagina{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.01em;line-height:1.15;margin-top:6px}
 
     /* Abas */
     .tabs-nav{display:flex;margin:16px 20px 0;border-bottom:1.5px solid var(--border2)}
     .tab-btn{flex:1;padding:11px 4px;font-size:13px;font-weight:400;background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .18s,border-color .18s;-webkit-tap-highlight-color:transparent}
-    .tab-btn.ativo{color:var(--musgo);border-bottom-color:var(--musgo);font-weight:600}
+    .tab-btn.ativo{color:var(--azul);border-bottom-color:var(--azul);font-weight:600}
     .painel{display:none;padding:20px}
     .painel.ativo{display:block}
     .sec-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
@@ -70,17 +71,17 @@
     /* Tamanhos */
     .tam-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px}
     .tam-card{border:1.5px solid var(--border2);border-radius:var(--radius);padding:14px 12px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--bg2);user-select:none;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
-    .tam-card:active{background:var(--musgo-light)}
-    .tam-card.ativo{border:2px solid var(--musgo);background:var(--musgo-light)}
+    .tam-card:active{background:var(--azul-light)}
+    .tam-card.ativo{border:2px solid var(--azul);background:var(--azul-light)}
     .tam-card-info{flex:1;min-width:0}
     .tam-card-nome{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
     .tam-card-cm{font-size:11px;color:var(--text3)}
     .tam-card-ref{font-size:10px;color:var(--text3);margin-top:3px;font-style:italic;opacity:.85}
-    .tam-card.ativo .tam-card-ref{color:var(--musgo);opacity:1}
-    .tam-card.ativo .tam-card-nome{color:var(--musgo-dark)}
-    .tam-card.ativo .tam-card-cm{color:var(--musgo)}
+    .tam-card.ativo .tam-card-ref{color:var(--azul);opacity:1}
+    .tam-card.ativo .tam-card-nome{color:var(--azul-dark)}
+    .tam-card.ativo .tam-card-cm{color:var(--azul)}
     .tam-card-preco{font-size:15px;font-weight:600;color:var(--text);flex-shrink:0}
-    .tam-card.ativo .tam-card-preco{color:var(--musgo-dark)}
+    .tam-card.ativo .tam-card-preco{color:var(--azul-dark)}
 
 
     /* Opções */
@@ -89,13 +90,13 @@
     .opcao-info{flex:1}
     .opcao-titulo{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
     .opcao-desc{font-size:12px;color:var(--text3);line-height:1.5}
-    .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--musgo-light);border:1px solid var(--musgo-mid);color:var(--musgo);text-transform:uppercase;vertical-align:middle;margin-left:4px;letter-spacing:.04em}
+    .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--azul-light);border:1px solid var(--azul-mid);color:var(--azul);text-transform:uppercase;vertical-align:middle;margin-left:4px;letter-spacing:.04em}
 
     /* Toggle */
     .toggle{position:relative;width:46px;height:28px;cursor:pointer;flex-shrink:0;margin-top:2px}
     .toggle input{display:none}
     .t-track{position:absolute;inset:0;border-radius:14px;border:1.5px solid var(--border2);background:var(--bg3);transition:background .2s,border-color .2s}
-    .toggle input:checked~.t-track{background:var(--musgo);border-color:var(--musgo)}
+    .toggle input:checked~.t-track{background:var(--azul-btn);border-color:var(--azul-btn)}
     .t-thumb{position:absolute;top:4px;left:4px;width:16px;height:16px;border-radius:50%;background:var(--text3);transition:transform .2s,background .2s}
     .toggle input:checked~.t-track .t-thumb{transform:translateX(18px);background:#fff}
 
@@ -113,26 +114,26 @@
     .moldura-info{padding:12px 14px}
     .moldura-nome{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
     .moldura-det{font-size:12px;color:var(--text2);line-height:1.55}
-    .moldura-extra{font-size:15px;font-weight:700;margin-top:6px;color:var(--musgo-dark)}
+    .moldura-extra{font-size:15px;font-weight:700;margin-top:6px;color:var(--azul-dark)}
 
     .copies-info{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:11px 13px;font-size:12px;color:var(--text2);line-height:1.6}
     .qty-row{display:flex;align-items:center;gap:12px}
     .qty-row label{font-size:13px;color:var(--text2)}
     .qty-btn{width:38px;height:38px;border:1.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-tap-highlight-color:transparent}
     .qty-btn:active{background:var(--bg3)}
-    .qty-val{font-size:20px;font-weight:700;min-width:28px;text-align:center;color:var(--musgo-dark)}
-    .qty-unit{font-size:12px;font-weight:500;color:var(--musgo)}
+    .qty-val{font-size:20px;font-weight:700;min-width:28px;text-align:center;color:var(--azul-dark)}
+    .qty-unit{font-size:12px;font-weight:500;color:var(--azul)}
 
     /* Resumo */
-    .resumo-box{background:var(--musgo-light);border-radius:var(--radius-lg);padding:16px;margin-top:22px;border:1.5px solid var(--musgo-mid)}
-    .resumo-titulo{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--musgo);margin-bottom:12px}
+    .resumo-box{background:var(--azul-light);border-radius:var(--radius-lg);padding:16px;margin-top:22px;border:1.5px solid var(--azul-mid)}
+    .resumo-titulo{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
     .r-linha{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:13px;color:var(--text2)}
     .r-linha span:first-child{padding-right:8px}
-    .r-linha span:last-child{font-size:14px;font-weight:600;color:var(--musgo-dark);white-space:nowrap}
-    .r-divider{border:none;border-top:1px solid var(--musgo-mid);margin:10px 0}
+    .r-linha span:last-child{font-size:14px;font-weight:600;color:var(--azul-dark);white-space:nowrap}
+    .r-divider{border:none;border-top:1px solid var(--azul-mid);margin:10px 0}
     .r-total-linha{display:flex;justify-content:space-between;align-items:center;padding:2px 0}
-    .r-total-label{font-size:14px;font-weight:500;color:var(--musgo-dark)}
-    .r-total-val{font-size:26px;font-weight:700;color:var(--musgo-dark)}
+    .r-total-label{font-size:14px;font-weight:500;color:var(--azul-dark)}
+    .r-total-val{font-size:26px;font-weight:700;color:var(--azul-dark)}
 
     /* Pagamento */
     .pgto-box{margin-top:12px;border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden}
@@ -141,13 +142,25 @@
     .pgto-parcela{padding:14px;background:var(--bg)}
     .pgto-parcela:first-child{border-right:1px solid var(--border2)}
     .pgto-etapa{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
-    .pgto-valor{font-size:22px;font-weight:700;color:var(--musgo-dark);margin-bottom:4px;line-height:1.1}
+    .pgto-valor{font-size:22px;font-weight:700;color:var(--azul-dark);margin-bottom:4px;line-height:1.1}
     .pgto-quando{font-size:11px;color:var(--text3);line-height:1.45}
     .pgto-footer{padding:9px 14px;font-size:12px;color:var(--text3);border-top:1px solid var(--border2);background:var(--bg2)}
+    .pgto-seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px;background:var(--bg);border-bottom:1px solid var(--border2)}
+    .pgto-opt{padding:11px 8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text2);background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);cursor:pointer;transition:border-color .18s,background .18s,color .18s;-webkit-tap-highlight-color:transparent}
+    .pgto-opt.ativo{border-color:var(--azul);background:var(--azul-light);color:var(--azul-dark)}
+    .pgto-cartao{padding:14px;background:var(--bg)}
+    .pgto-cartao .pgto-valor{margin-top:12px}
+    .campo{margin-bottom:12px}
+    .campo-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+    .campo input,.pgto-cartao select{width:100%;padding:11px 12px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--text);background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);outline:none;transition:border-color .18s}
+    .campo input:focus,.pgto-cartao select:focus{border-color:var(--azul)}
+    .form-box{margin-top:22px}
+    .opcional{font-weight:400;letter-spacing:.04em;text-transform:none}
+    .campo-dica{font-size:12px;color:var(--text3);line-height:1.5}
 
     /* Aviso prazo */
-    .aviso{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:13px 14px;border:1px solid var(--musgo-mid);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--musgo-light)}
-    .aviso-dot{width:6px;height:6px;border-radius:50%;background:var(--musgo);margin-top:4px;flex-shrink:0}
+    .aviso{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:13px 14px;border:1px solid var(--azul-mid);border-radius:var(--radius);font-size:12px;color:var(--text2);line-height:1.6;background:var(--azul-light)}
+    .aviso-dot{width:6px;height:6px;border-radius:50%;background:var(--azul);margin-top:4px;flex-shrink:0}
 
     /* Processo */
     .processo-box{margin-top:24px;border:1.5px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden}
@@ -157,37 +170,37 @@
     .etapa{display:flex;gap:14px;align-items:flex-start;padding:16px;border-bottom:1px solid var(--border);background:var(--bg)}
     .etapa:last-child{border-bottom:none}
     .etapa-num{width:28px;height:28px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text2)}
-    .etapa.destaque .etapa-num{background:var(--musgo);border-color:var(--musgo);color:#fff}
+    .etapa.destaque .etapa-num{background:var(--azul-btn);border-color:var(--azul-btn);color:#fff}
     .etapa-corpo{flex:1;min-width:0}
     .etapa-titulo{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
     .etapa-desc{font-size:12px;color:var(--text3);line-height:1.6}
-    .etapa-chip{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--musgo);background:var(--musgo-light);border:1px solid var(--musgo-mid);border-radius:4px;padding:3px 9px;line-height:1.4}
+    .etapa-chip{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--azul);background:var(--azul-light);border:1px solid var(--azul-mid);border-radius:4px;padding:3px 9px;line-height:1.4}
 
     /* Sobre */
     .perfil-hero{display:flex;gap:14px;align-items:center;margin-bottom:16px}
-    .perfil-foto{width:72px;height:72px;border-radius:50%;background:var(--musgo-light);border:2px solid var(--musgo-mid);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .perfil-foto svg{opacity:.4;color:var(--musgo)}
+    .perfil-foto{width:72px;height:72px;border-radius:50%;background:var(--azul-light);border:2px solid var(--azul-mid);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .perfil-foto svg{opacity:.4;color:var(--azul)}
     .perfil-nome{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2}
     .perfil-sub{font-size:12px;color:var(--text3);line-height:1.5}
     .perfil-bio{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:18px}
     .perfil-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-    .avaliacoes-link{display:flex;align-items:center;gap:10px;padding:11px 14px;margin-bottom:22px;border:1px solid var(--musgo-mid);border-radius:var(--radius);background:var(--musgo-light);text-decoration:none;color:var(--musgo-dark);transition:background .15s}
+    .avaliacoes-link{display:flex;align-items:center;gap:10px;padding:11px 14px;margin-bottom:22px;border:1px solid var(--azul-mid);border-radius:var(--radius);background:var(--azul-light);text-decoration:none;color:var(--azul-dark);transition:background .15s}
     .avaliacoes-link:active{background:var(--bg2)}
     .avaliacoes-estrelas{font-size:13px;letter-spacing:1px;color:#f5b800}
     .avaliacoes-texto{font-size:12.5px;font-weight:500;flex:1;line-height:1.4}
-    .avaliacoes-seta{font-size:14px;color:var(--musgo);flex-shrink:0}
-    .pill{font-size:12px;font-weight:500;color:var(--musgo-dark);background:var(--musgo-light);border:1px solid var(--musgo-mid);border-radius:20px;padding:6px 14px;white-space:nowrap}
+    .avaliacoes-seta{font-size:14px;color:var(--azul);flex-shrink:0}
+    .pill{font-size:12px;font-weight:500;color:var(--azul-dark);background:var(--azul-light);border:1px solid var(--azul-mid);border-radius:20px;padding:6px 14px;white-space:nowrap}
     .galeria-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
-    .galeria-item{aspect-ratio:1;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--musgo-light);border:1px solid var(--musgo-mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+    .galeria-item{aspect-ratio:1;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--azul-light);border:1px solid var(--azul-mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
     .galeria-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
     .galeria-item:active img{transform:scale(1.03)}
-    .galeria-ph-icon{opacity:.3;color:var(--musgo)}
-    .galeria-ph-label{font-size:11px;font-weight:500;color:var(--musgo)}
+    .galeria-ph-icon{opacity:.3;color:var(--azul)}
+    .galeria-ph-label{font-size:11px;font-weight:500;color:var(--azul)}
     .galeria-caption{font-size:12px;color:var(--text3);text-align:center;padding-top:6px;margin-bottom:18px}
-    .galeria-caption a{color:var(--musgo);font-weight:600;text-decoration:none}
+    .galeria-caption a{color:var(--azul);font-weight:600;text-decoration:none}
     .perfil-links{display:flex;flex-direction:column;gap:8px}
     .perfil-link{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1.5px solid var(--border2);border-radius:var(--radius);font-size:13px;color:var(--text2);text-decoration:none;background:var(--bg2)}
-    .perfil-link svg{opacity:.5;flex-shrink:0;color:var(--musgo)}
+    .perfil-link svg{opacity:.5;flex-shrink:0;color:var(--azul)}
 
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
@@ -196,20 +209,20 @@
     .lb-close{position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
     /* Barra flutuante */
-    .barra{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--musgo-light);border-top:1.5px solid var(--musgo-mid);padding:8px 16px calc(10px + env(safe-area-inset-bottom))}
+    .barra{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--azul-light);border-top:1.5px solid var(--azul-mid);padding:8px 16px calc(10px + env(safe-area-inset-bottom))}
     .barra-inner{max-width:420px;margin:0 auto}
     .barra-resumo{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
     .barra-pedido{flex:1;min-width:0}
     .barra-pedido-tam{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .barra-pedido-extras{font-size:11px;color:var(--text2);margin-top:2px}
-    .barra-pedido-prazo{font-size:11px;color:var(--musgo);font-weight:500;margin-top:1px}
+    .barra-pedido-prazo{font-size:11px;color:var(--azul);font-weight:500;margin-top:1px}
     .barra-total-wrap{text-align:right;flex-shrink:0;margin-left:14px}
     .barra-total-label{font-size:10px;font-weight:600;color:var(--text2);letter-spacing:.08em;text-transform:uppercase}
-    .barra-total-val{font-size:24px;font-weight:700;color:var(--musgo-dark);line-height:1.1}
-    .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--musgo-btn);color:var(--musgo-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
+    .barra-total-val{font-size:24px;font-weight:700;color:var(--azul-dark);line-height:1.1}
+    .btn-wpp{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--azul-btn);color:var(--azul-btn-text);border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;letter-spacing:.01em}
     .btn-wpp:active{opacity:.82}
     .btn-microcopy{font-size:11px;color:var(--text2);text-align:center;margin-top:6px;line-height:1.4}
-    .btn-microcopy a{color:var(--musgo);font-weight:600;text-decoration:none}
+    .btn-microcopy a{color:var(--azul);font-weight:600;text-decoration:none}
     .hidden{display:none!important}
 
     /* ══ DESKTOP (≥800px) ══ */
@@ -273,8 +286,8 @@
       }
       .barra-inner {
         max-width: 100%;
-        background: var(--musgo-light);
-        border: 1.5px solid var(--musgo-mid);
+        background: var(--azul-light);
+        border: 1.5px solid var(--azul-mid);
         border-radius: 14px;
         padding: 18px 20px 20px;
         box-shadow: 0 4px 24px var(--shadow);
@@ -294,7 +307,7 @@
 
 <div class="desktop-shell">
 <div class="app">
-  <div class="header"><p class="marca">unspredinhos · Bruno Lorenz</p></div>
+  <div class="header"><p class="marca">unspredinhos · Bruno Lorenz</p><h1 class="titulo-pagina">Encomendas 2027</h1></div>
 
   <nav class="tabs-nav">
     <button class="tab-btn ativo" data-tab="orcamento">Orçamento</button>
@@ -306,70 +319,6 @@
 
     <p class="sec-label">Selecione o tamanho da pintura</p>
     <div class="tam-grid" id="tam-grid">
-      <div class="tam-card" data-id="predinho">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">Predinho do Dia</div>
-          <div class="tam-card-cm">8 × 8 cm</div>
-          <div class="tam-card-ref">miniatura quadrada</div>
-        </div>
-        <div class="tam-card-preco">R$ 250</div>
-      </div>
-      <div class="tam-card ativo" data-id="postal">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">Postal</div>
-          <div class="tam-card-cm">10 × 15 cm</div>
-          <div class="tam-card-ref">tamanho de um cartão</div>
-        </div>
-        <div class="tam-card-preco">R$ 310</div>
-      </div>
-      <div class="tam-card" data-id="a5">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A5</div>
-          <div class="tam-card-cm">14 × 21 cm</div>
-          <div class="tam-card-ref">meia folha ofício</div>
-        </div>
-        <div class="tam-card-preco">R$ 420</div>
-      </div>
-      <div class="tam-card" data-id="a4">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A4</div>
-          <div class="tam-card-cm">21 × 30 cm</div>
-          <div class="tam-card-ref">uma folha ofício</div>
-        </div>
-        <div class="tam-card-preco">R$ 560</div>
-      </div>
-      <div class="tam-card" data-id="a3">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A3</div>
-          <div class="tam-card-cm">30 × 42 cm</div>
-          <div class="tam-card-ref">duas folhas ofício</div>
-        </div>
-        <div class="tam-card-preco">R$ 950</div>
-      </div>
-      <div class="tam-card" data-id="a2">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A2</div>
-          <div class="tam-card-cm">42 × 59 cm</div>
-          <div class="tam-card-ref">quadro médio</div>
-        </div>
-        <div class="tam-card-preco">R$ 1.490</div>
-      </div>
-      <div class="tam-card" data-id="a1">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A1</div>
-          <div class="tam-card-cm">59 × 84 cm</div>
-          <div class="tam-card-ref">quadro grande</div>
-        </div>
-        <div class="tam-card-preco">R$ 2.290</div>
-      </div>
-      <div class="tam-card" data-id="a0">
-        <div class="tam-card-info">
-          <div class="tam-card-nome">A0</div>
-          <div class="tam-card-cm">84 × 119 cm</div>
-          <div class="tam-card-ref">formato monumental</div>
-        </div>
-        <div class="tam-card-preco">R$ 3.490</div>
-      </div>
     </div>
 
 
@@ -417,8 +366,8 @@
     <div class="opcao-linha">
       <div class="opcao-row">
         <div class="opcao-info">
-          <div class="opcao-titulo">Entrega expressa <span class="badge">+10%</span></div>
-          <div class="opcao-desc">Prioridade na fila · Entrega na 2ª Semana de Agosto</div>
+          <div class="opcao-titulo">Entrega expressa <span class="badge" id="badge-express">+10%</span></div>
+          <div class="opcao-desc">Prioridade na fila · Prazo combinado diretamente</div>
         </div>
         <label class="toggle"><input type="checkbox" id="tog-express"><div class="t-track"><div class="t-thumb"></div></div></label>
       </div>
@@ -427,7 +376,7 @@
     <div class="opcao-linha">
       <div class="opcao-row">
         <div class="opcao-info">
-          <div class="opcao-titulo">Silhueta de pessoas <span class="badge">+10%</span></div>
+          <div class="opcao-titulo">Silhueta de pessoas <span class="badge" id="badge-silhueta">+10%</span></div>
           <div class="opcao-desc">Inclui uma ou mais silhuetas na cena, dando escala e vida à pintura</div>
         </div>
         <label class="toggle"><input type="checkbox" id="tog-silhueta"><div class="t-track"><div class="t-thumb"></div></div></label>
@@ -436,7 +385,7 @@
 
      <div class="aviso">
       <div class="aviso-dot"></div>
-      <div><strong style="font-weight:700;color:var(--musgo-dark)">Prazo atual:</strong> entrega prevista para Janeiro de 2027. Entrega expressa: prazo combinado diretamente.</div>
+      <div><strong style="font-weight:700;color:var(--azul-dark)">Prazo atual:</strong> entrega prevista para <span id="aviso-prazo">Janeiro de 2027</span>. Entrega expressa: prazo combinado diretamente. <strong id="aviso-vagas" class="hidden" style="font-weight:700;color:var(--azul-dark)"></strong></div>
     </div>
 
     <!-- Resumo -->
@@ -454,7 +403,11 @@
     <!-- Pagamento -->
     <div class="pgto-box">
       <div class="pgto-header">Condições de pagamento</div>
-      <div class="pgto-parcelas">
+      <div class="pgto-seg" role="group" aria-label="Forma de pagamento">
+        <button type="button" class="pgto-opt ativo" data-pg="pix">Pix</button>
+        <button type="button" class="pgto-opt" data-pg="cartao">Cartão</button>
+      </div>
+      <div class="pgto-parcelas" id="pgto-pix">
         <div class="pgto-parcela">
           <div class="pgto-etapa">Entrada — 50%</div>
           <div class="pgto-valor" id="pgto-entrada">R$ 155</div>
@@ -466,10 +419,35 @@
           <div class="pgto-quando">Quando a arte estiver pronta</div>
         </div>
       </div>
-      <div class="pgto-footer">PIX · Cartão em até 12×</div>
+      <div class="pgto-cartao hidden" id="pgto-cartao">
+        <label class="campo-label" for="sel-parcelas">Parcelamento no cartão</label>
+        <select id="sel-parcelas"></select>
+        <div class="pgto-valor" id="cartao-parcela">R$ 310 à vista</div>
+        <div class="pgto-quando" id="cartao-total"></div>
+        <div class="pgto-quando" style="margin-top:6px">Valor total cobrado ao confirmar · garante sua vaga</div>
+      </div>
+      <div class="pgto-footer" id="pgto-footer">Pix · sem juros · quer parcelar? Escolha Cartão</div>
     </div>
 
    
+
+    <!-- Dados do pedido -->
+    <div class="form-box">
+      <p class="sec-label">Sobre a sua encomenda <span class="opcional">· opcional</span></p>
+      <div class="campo">
+        <label class="campo-label" for="f-nome">Seu nome</label>
+        <input id="f-nome" type="text" autocomplete="name" placeholder="Como posso te chamar?">
+      </div>
+      <div class="campo">
+        <label class="campo-label" for="f-cidade">Cidade de entrega</label>
+        <input id="f-cidade" type="text" autocomplete="address-level2" placeholder="Ex.: Porto Alegre, RS">
+      </div>
+      <div class="campo">
+        <label class="campo-label" for="f-local">Qual lugar você quer pintar?</label>
+        <input id="f-local" type="text" placeholder="Nome, endereço ou link do local">
+      </div>
+      <p class="campo-dica">Essas informações vão junto na mensagem para o WhatsApp.</p>
+    </div>
 
     <!-- COMO FUNCIONA -->
     <div class="processo-box">
@@ -513,7 +491,7 @@
   <!-- ABA SOBRE & TRABALHOS -->
   <div class="painel" id="painel-sobre">
     <div class="perfil-hero">
-      <img src="img/perfil.jpeg" alt="Bruno Lorenz" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--musgo-mid)">
+      <img src="img/perfil.jpeg" alt="Bruno Lorenz" style="width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--azul-mid)">
       <div>
         <div class="perfil-nome">Bruno Lorenz</div>
         <div class="perfil-sub">Aquarelista · Porto Alegre, RS · @unspredinhos</div>
@@ -525,7 +503,7 @@
       <span class="pill">Papel 100% algodão</span>
       <span class="pill">Acompanha certificado de autenticidade</span>
     </div>
-    <a class="avaliacoes-link" href="https://www.google.com/search?q=uns+predinhos+google+maps&sourceid=chrome&ie=UTF-8#" target="_blank" rel="noopener">
+    <a class="avaliacoes-link" href="https://www.google.com/search?q=uns+predinhos+google+maps" target="_blank" rel="noopener">
       <span class="avaliacoes-estrelas">★★★★★</span>
       <span class="avaliacoes-texto">Ver avaliações de quem já encomendou</span>
       <span class="avaliacoes-seta">→</span>
@@ -561,7 +539,7 @@
       <div class="barra-pedido">
         <div class="barra-pedido-tam" id="bf-tam">Postal · 10 × 15 cm</div>
         <div class="barra-pedido-extras" id="bf-extras">sem adicionais</div>
-        <div class="barra-pedido-prazo" id="bf-prazo">Entrega: Janeiro 2027</div>
+        <div class="barra-pedido-prazo" id="bf-prazo">Entrega: Janeiro de 2027</div>
       </div>
       <div class="barra-total-wrap">
         <div class="barra-total-label">Total</div>
@@ -580,19 +558,45 @@
 </div><!-- /desktop-shell -->
 
 <script>
+// ── CONFIGURAÇÃO: preços, prazo e taxas ficam só aqui ──
+var PRAZO='Janeiro de 2027';
+var TAXA_EXTRA=0.10; // entrega expressa e silhueta: % sobre o preço da pintura (sem moldura)
+var VAGAS=10; // vagas restantes para o prazo acima (10 por mês): diminua a cada pedido fechado · null = não mostrar · 0 = esgotado / lista de espera
+// Cartão: quanto o cliente paga, para cada R$ 1,00 líquido que você recebe, por número de parcelas (tabela da operadora, medida sobre R$ 100)
+var JUROS_CARTAO={1:1,2:1.0649,3:1.0754,4:1.0859,5:1.0965,6:1.1071,7:1.1441,8:1.1551,9:1.1662,10:1.1774,11:1.1887,12:1.2};
 var T={
-  predinho:{nome:'Predinho do Dia',cm:'8 × 8 cm',base:250, moldura:300, temMoldura:true, copia:80, copiaLabel:'8 × 8 cm'},
-  postal:{nome:'Postal',cm:'10 × 15 cm',base:310, moldura:370, temMoldura:true, copia:120, copiaLabel:'A6'},
-  a5:    {nome:'A5',    cm:'14 × 21 cm',base:420, moldura:540, temMoldura:true, copia:150, copiaLabel:'A5'},
-  a4:    {nome:'A4',    cm:'21 × 30 cm',base:560, moldura:750, temMoldura:true, copia:220, copiaLabel:'A4'},
-  a3:    {nome:'A3',    cm:'30 × 42 cm',base:950, moldura:1100,temMoldura:true, copia:450, copiaLabel:'A3'},
-  a2:    {nome:'A2',    cm:'42 × 59 cm',base:1490,moldura:1490,temMoldura:false, copia:900, copiaLabel:'A2'},
-  a1:    {nome:'A1',    cm:'59 × 84 cm',base:2290,moldura:2290,temMoldura:false, copia:1800, copiaLabel:'A1'},
-  a0:    {nome:'A0',    cm:'84 × 119 cm',base:3490,moldura:3490,temMoldura:false, copia:3000, copiaLabel:'A0'}
+  predinho:{nome:'Predinho do Dia',cm:'8 × 8 cm',   ref:'miniatura quadrada',    base:250,  moldura:300,  temMoldura:true,  copia:80,   copiaLabel:'8 × 8 cm'},
+  postal:  {nome:'Postal',         cm:'10 × 15 cm', ref:'tamanho de um cartão',  base:310,  moldura:370,  temMoldura:true,  copia:120,  copiaLabel:'A6'},
+  a5:      {nome:'A5',             cm:'14 × 21 cm', ref:'meia folha ofício',     base:420,  moldura:540,  temMoldura:true,  copia:150,  copiaLabel:'A5'},
+  a4:      {nome:'A4',             cm:'21 × 30 cm', ref:'uma folha ofício',      base:560,  moldura:750,  temMoldura:true,  copia:220,  copiaLabel:'A4'},
+  a3:      {nome:'A3',             cm:'30 × 42 cm', ref:'duas folhas ofício',    base:950,  moldura:1100, temMoldura:true,  copia:450,  copiaLabel:'A3'},
+  a2:      {nome:'A2',             cm:'42 × 59 cm', ref:'quadro médio',          base:1490, moldura:1490, temMoldura:false, copia:900,  copiaLabel:'A2'},
+  a1:      {nome:'A1',             cm:'59 × 84 cm', ref:'quadro grande',         base:2290, moldura:2290, temMoldura:false, copia:1800, copiaLabel:'A1'},
+  a0:      {nome:'A0',             cm:'84 × 119 cm',ref:'formato monumental',    base:3490, moldura:3490, temMoldura:false, copia:3000, copiaLabel:'A0'}
 };
 function pc(id){return T[id].copia;} // preço da cópia Fine Art por tamanho
-var E={tamanho:'postal',moldura:false,copies:false,qty:1,express:false,silhueta:false};
+var E={tamanho:'postal',moldura:false,copies:false,qty:1,express:false,silhueta:false,pagto:'pix',parcelas:1};
 function fmt(n){return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
+function fmtc(n){return 'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+// valor de cada parcela no cartão, em centavos (arredondado para cima, como a operadora)
+function parcelaCartaoCent(total,n){return Math.ceil(total*100*JUROS_CARTAO[n]/n-1e-6);}
+function montarParcelas(){
+  var sel=document.getElementById('sel-parcelas');
+  for(var n=1;n<=12;n++){var o=document.createElement('option');o.value=n;sel.appendChild(o);}
+  sel.value=E.parcelas;
+}
+
+function montarCards(){
+  var g=document.getElementById('tam-grid');
+  Object.keys(T).forEach(function(id){
+    var t=T[id];
+    var d=document.createElement('div');
+    d.className='tam-card'+(id===E.tamanho?' ativo':'');
+    d.dataset.id=id;
+    d.innerHTML='<div class="tam-card-info"><div class="tam-card-nome">'+t.nome+'</div><div class="tam-card-cm">'+t.cm+'</div><div class="tam-card-ref">'+t.ref+'</div></div><div class="tam-card-preco">'+fmt(t.base)+'</div>';
+    g.appendChild(d);
+  });
+}
 
 function atualizar(){
   var t=T[E.tamanho];
@@ -605,8 +609,8 @@ function atualizar(){
   }
   var base=E.moldura?t.moldura:t.base,diff=t.moldura-t.base;
   var pco=pc(E.tamanho),copias=E.copies?pco*E.qty:0;
-  var exp=E.express?Math.round(t.base*.1):0;
-  var sil=E.silhueta?Math.round(t.base*.1):0;
+  var exp=E.express?Math.round(t.base*TAXA_EXTRA):0;
+  var sil=E.silhueta?Math.round(t.base*TAXA_EXTRA):0;
   var total=base+copias+exp+sil,entrada=Math.round(total*.5),rest=total-entrada;
 
   document.getElementById('r-tam').textContent=t.nome+' ('+t.cm+')'+(E.moldura?' + moldura':'');
@@ -636,6 +640,20 @@ function atualizar(){
   document.getElementById('r-total').textContent=fmt(total);
   document.getElementById('pgto-entrada').textContent=fmt(entrada);
   document.getElementById('pgto-restante').textContent=fmt(rest);
+
+  // Cartão
+  var pcent=parcelaCartaoCent(total,E.parcelas),totCartao=pcent*E.parcelas/100,juros=totCartao-total;
+  var sel=document.getElementById('sel-parcelas');
+  for(var n=1;n<=12;n++){
+    var pn=parcelaCartaoCent(total,n);
+    sel.options[n-1].textContent=n===1?'1× à vista — '+fmtc(pn/100):n+'× de '+fmtc(pn/100)+' — total '+fmtc(pn*n/100);
+  }
+  document.getElementById('cartao-parcela').textContent=E.parcelas===1?fmtc(total)+' à vista':E.parcelas+'× de '+fmtc(pcent/100);
+  document.getElementById('cartao-total').textContent='Total no cartão: '+fmtc(totCartao)+(juros>0.004?' · inclui '+fmtc(juros)+' de juros':' · sem juros');
+  document.getElementById('pgto-pix').classList.toggle('hidden',E.pagto!=='pix');
+  document.getElementById('pgto-cartao').classList.toggle('hidden',E.pagto!=='cartao');
+  document.getElementById('pgto-footer').textContent=E.pagto==='cartao'?'No Pix o total é '+fmt(total)+', sem juros':'Pix · sem juros · quer parcelar? Escolha Cartão';
+  Array.prototype.forEach.call(document.querySelectorAll('.pgto-opt'),function(b){b.classList.toggle('ativo',b.dataset.pg===E.pagto);});
   document.getElementById('bf-tam').textContent=t.nome+' · '+t.cm;
   document.getElementById('badge-copia').textContent='+'+fmt(pco)+'/un';
   document.getElementById('badge-moldura').textContent='+'+fmt(diff);
@@ -646,16 +664,23 @@ function atualizar(){
   if(E.express)ex.push('expressa');
   if(E.silhueta)ex.push('silhueta');
   document.getElementById('bf-extras').textContent=ex.length?ex.join(' · '):'sem adicionais';
-  document.getElementById('bf-prazo').textContent=E.express?'Entrega: prazo a combinar':'Entrega: Janeiro 2027';
+  document.getElementById('bf-prazo').textContent=E.express?'Entrega: prazo a combinar':'Entrega: '+PRAZO;
   document.getElementById('bf-total').textContent=fmt(total);
 
-  var l=['Olá, Bruno! Fiz o orçamento pelo site:\n','Tamanho: '+t.nome+' ('+t.cm+')'];
+  var nome=(document.getElementById('f-nome').value||'').trim();
+  var cidade=(document.getElementById('f-cidade').value||'').trim();
+  var local=(document.getElementById('f-local').value||'').trim();
+  var l=['Olá, Bruno!'+(nome?' Sou '+nome+'.':'')+' Fiz o orçamento pelo site:\n','Tamanho: '+t.nome+' ('+t.cm+')'];
   if(E.moldura)l.push('Com moldura');
   if(E.copies)l.push('Cópias Fine Art: '+E.qty+' ('+t.copiaLabel+')');
   if(E.express)l.push('Entrega expressa: sim');
   if(E.silhueta)l.push('Silhueta de pessoas: sim');
-  l.push('\nTotal: '+fmt(total)+' · Entrada: '+fmt(entrada)+' · Restante: '+fmt(rest));
-  l.push('\nPoderia confirmar disponibilidade?');
+  if(local)l.push('Local a pintar: '+local);
+  if(cidade)l.push('Cidade de entrega: '+cidade);
+  l.push('\nTotal do pedido: '+fmt(total));
+  if(E.pagto==='cartao')l.push('Pagamento: cartão '+(E.parcelas===1?'à vista':'em '+E.parcelas+'× de '+fmtc(pcent/100))+(juros>0.004?' (total '+fmtc(totCartao)+', com juros)':' (sem juros)'));
+  else l.push('Pagamento: Pix · entrada '+fmt(entrada)+' + restante '+fmt(rest));
+  l.push(VAGAS===0?'\nGostaria de entrar na lista de espera.':'\nPoderia confirmar disponibilidade?');
   document.getElementById('btn-wpp').href='https://wa.me/5551993115340?text='+encodeURIComponent(l.join('\n'));
 }
 
@@ -695,6 +720,11 @@ document.getElementById('tog-copies').addEventListener('change',function(){E.cop
 document.getElementById('tog-express').addEventListener('change',function(){E.express=this.checked;atualizar();});
 document.getElementById('tog-silhueta').addEventListener('change',function(){E.silhueta=this.checked;atualizar();});
 document.getElementById('qty-minus').addEventListener('click',function(){if(E.qty>1){E.qty--;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
+Array.prototype.forEach.call(document.querySelectorAll('.pgto-opt'),function(b){
+  b.addEventListener('click',function(){E.pagto=b.dataset.pg;atualizar();});
+});
+document.getElementById('sel-parcelas').addEventListener('change',function(){E.parcelas=parseInt(this.value,10);atualizar();});
+['f-nome','f-cidade','f-local'].forEach(function(id){document.getElementById(id).addEventListener('input',atualizar);});
 document.getElementById('qty-plus').addEventListener('click',function(){if(E.qty<10){E.qty++;document.getElementById('qty-val').textContent=E.qty;atualizar();}});
 
 // Move painel-sobre: dentro de .app no mobile (comportamento de aba) / filho direto de .desktop-shell no desktop (coluna direita)
@@ -715,6 +745,17 @@ document.getElementById('qty-plus').addEventListener('click',function(){if(E.qty
   else mql.addListener(place);
 })();
 
+montarCards();
+montarParcelas();
+if(VAGAS!==null){
+  var av=document.getElementById('aviso-vagas');
+  av.textContent=VAGAS===0?'Vagas esgotadas — fale comigo para entrar na lista de espera.':(VAGAS===1?'Resta 1 vaga':'Restam '+VAGAS+' vagas')+' para esse prazo.';
+  av.classList.remove('hidden');
+}
+document.getElementById('aviso-prazo').textContent=PRAZO;
+var pctExtra='+'+Math.round(TAXA_EXTRA*100)+'%';
+document.getElementById('badge-express').textContent=pctExtra;
+document.getElementById('badge-silhueta').textContent=pctExtra;
 atualizar();
 </script>
 </body>
