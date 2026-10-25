@@ -282,7 +282,6 @@ function anima(to){
 }
 function render(){
   var t=T[E.i],total=tot(E.i),mol=E.mol&&t.fr;
-  if(E.i!==ultI){ultI=E.i;trocaImagem()}
   anima(total);
   var q=$('quadro'),cw=$('cena').clientWidth||340,W=Math.max(t.w,t.h),H=Math.min(t.w,t.h),sc=Math.min(6,130/H,(cw-24)/(W+20+(mol?2.4:0))),fw=mol?Math.max(2,1.2*sc):0;
   q.style.width=W*sc+'px';q.style.height=H*sc+'px';q.style.outlineWidth=fw+'px';
@@ -361,8 +360,8 @@ var IMGS=['3exemplo.jpeg','5exemplo.jpeg','7exemplo.jpeg','8exemplo.jpeg','1exem
   document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(!$('lb').hidden)$('lb').hidden=true;else if(gav.classList.contains('aberta'))fechar()});
   $('bf-prazo').textContent='Entrega em '+PRAZO;
 })();
-// ── Imagem do quadro: sorteia uma aquarela horizontal (ao abrir, ao trocar de tamanho e ao tocar no quadro)
-var HORIZONTAIS=[1,4,5,6,7,8],imgAtual=0,ultI=-1;
+// ── Imagem do quadro: sorteia uma aquarela horizontal ao abrir a página e a cada toque no quadro
+var HORIZONTAIS=[1,4,5,6,7,8],imgAtual=0;
 function trocaImagem(){
   var im=$('qimg');if(!im)return;
   var a=HORIZONTAIS.filter(function(n){return n!==imgAtual}),i,j,t,cand=[],k=0;
@@ -374,6 +373,7 @@ function trocaImagem(){
   imgAtual=+cand[0].match(/(\d)exemplo/)[1];im.src=cand[0];
 }
 $('quadro').onclick=trocaImagem;
+trocaImagem();
 render();
 </script>
 </body>
