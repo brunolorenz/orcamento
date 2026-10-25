@@ -171,6 +171,9 @@ button.chip{cursor:pointer}
 #s-cop{--r:-6deg}#s-exp{--r:5deg}#s-sil{--r:-3deg}
 @keyframes pop{0%{transform:scale(.4) rotate(var(--r))}70%{transform:scale(1.2) rotate(var(--r))}100%{transform:scale(1) rotate(var(--r))}}
 @media (prefers-reduced-motion:reduce){.selo.on{animation:none}}
+#qimg{transition:opacity .3s}.quadro{cursor:pointer}
+.dica-q{margin-top:6px;font-size:12px;color:var(--mudo);text-align:center}
+@media (prefers-reduced-motion:reduce){#qimg{transition:none}}
 </style>
 </head>
 <body>
@@ -182,11 +185,12 @@ button.chip{cursor:pointer}
     <div class="cena" id="cena"><div class="caneca" id="caneca"></div>
     <figure class="quadro" id="quadro">
       <svg viewBox="0 0 150 100" preserveAspectRatio="xMidYMid slice"><rect width="150" height="100" fill="#F6F3EC"/><rect x="47" y="34" width="56" height="58" fill="#E8B33D" opacity=".85"/><path d="M42 36 75 12 108 36Z" fill="#2F6DA3" opacity=".9"/><g fill="#16262E" opacity=".72"><rect x="55" y="44" width="13" height="15"/><rect x="82" y="44" width="13" height="15"/><rect x="55" y="68" width="13" height="15"/><rect x="70" y="70" width="12" height="22"/></g><rect y="92" width="150" height="8" fill="#9DB4C6" opacity=".6"/></svg>
-      <img src="img/1exemplo.jpeg" alt="" onerror="this.remove()">
+      <img id="qimg" alt="">
     </figure><div class="celular" id="celular"></div></div>
     <div class="selos" id="selos"><span class="selo" id="s-cop" title="Cópias Fine Art">🖨️<b id="s-qty"></b></span><span class="selo" id="s-exp" title="Entrega expressa">⚡</span><span class="selo" id="s-sil" title="Silhueta de pessoas">👥</span></div>
     <p class="medida" id="medida"></p>
   </div>
+  <p class="dica-q">Toque no quadro para ver outra aquarela</p>
   <div class="regua">
     <div class="regua-topo"><label for="orc">Quanto você quer investir?</label><output id="orcv">R$ 560</output></div>
     <input type="range" id="orc" min="250" max="3500" step="10" value="560">
@@ -278,6 +282,7 @@ function anima(to){
 }
 function render(){
   var t=T[E.i],total=tot(E.i),mol=E.mol&&t.fr;
+  if(E.i!==ultI){ultI=E.i;trocaImagem()}
   anima(total);
   var q=$('quadro'),cw=$('cena').clientWidth||340,W=Math.max(t.w,t.h),H=Math.min(t.w,t.h),sc=Math.min(6,130/H,(cw-24)/(W+20+(mol?2.4:0))),fw=mol?Math.max(2,1.2*sc):0;
   q.style.width=W*sc+'px';q.style.height=H*sc+'px';q.style.outlineWidth=fw+'px';
@@ -356,6 +361,19 @@ var IMGS=['3exemplo.jpeg','5exemplo.jpeg','7exemplo.jpeg','8exemplo.jpeg','1exem
   document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(!$('lb').hidden)$('lb').hidden=true;else if(gav.classList.contains('aberta'))fechar()});
   $('bf-prazo').textContent='Entrega em '+PRAZO;
 })();
+// ── Imagem do quadro: sorteia uma aquarela horizontal (ao abrir, ao trocar de tamanho e ao tocar no quadro)
+var HORIZONTAIS=[1,4,5,6,7,8],imgAtual=0,ultI=-1;
+function trocaImagem(){
+  var im=$('qimg');if(!im)return;
+  var a=HORIZONTAIS.filter(function(n){return n!==imgAtual}),i,j,t,cand=[],k=0;
+  for(i=a.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t}
+  a.forEach(function(n){['jpeg','jpg'].forEach(function(e){cand.push('img/'+n+'exemplo.'+e)})});
+  im.style.opacity=0;
+  im.onload=function(){im.style.opacity=1};
+  im.onerror=function(){k++;if(k<cand.length){imgAtual=+cand[k].match(/(\d)exemplo/)[1];im.src=cand[k]}else im.remove()};
+  imgAtual=+cand[0].match(/(\d)exemplo/)[1];im.src=cand[0];
+}
+$('quadro').onclick=trocaImagem;
 render();
 </script>
 </body>
