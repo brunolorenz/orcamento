@@ -204,6 +204,7 @@ button.chip{cursor:pointer}
 .tam.fora .fora-tag{display:block;width:fit-content;max-width:100%;padding:3px 8px;line-height:1.25;border-radius:10px}
 .prova-trilho{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:10px 6px 14px;margin:0 -4px}
 .prova-trilho::-webkit-scrollbar{display:none}
+.prova-trilho{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fe,0px),#000 calc(100% - var(--fd,44px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fe,0px),#000 calc(100% - var(--fd,44px)),transparent 100%)}
 .pcard{flex:0 0 84%;scroll-snap-align:center;margin:0;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;background:#fff;border:2.5px solid #111;border-radius:18px;transform:rotate(var(--r,0))}
 .pcard p{font:italic 400 15.5px/1.5 'Lora',Georgia,serif}
 .pcard footer{font-size:12px;color:var(--mudo)}.pcard em{font-weight:600;color:#111}.pcard a{color:#111;font-weight:600}
@@ -457,8 +458,10 @@ function montarProva(){
     f.appendChild(p);f.appendChild(c);tr.appendChild(f);
   });
   function passo(){return cards.length>1?cards[1].offsetLeft-cards[0].offsetLeft:(tr.clientWidth||1)}
+  function bordas(){var max=tr.scrollWidth-tr.clientWidth;tr.style.setProperty('--fe',tr.scrollLeft>8?'28px':'0px');tr.style.setProperty('--fd',tr.scrollLeft<max-8?'44px':'0px')}
   function ir(i){var x=cards[i].offsetLeft-(tr.clientWidth-cards[i].offsetWidth)/2;if(tr.scrollTo)tr.scrollTo({left:x,behavior:reduz?'auto':'smooth'});else tr.scrollLeft=x;idx=i}
-  tr.addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;idx=Math.max(0,Math.min(cards.length-1,Math.round(tr.scrollLeft/passo())))})},{passive:true});
+  tr.addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;bordas();idx=Math.max(0,Math.min(cards.length-1,Math.round(tr.scrollLeft/passo())))})},{passive:true});
+  window.addEventListener('resize',bordas);bordas();
   ['touchstart','pointerdown','keydown','focusin'].forEach(function(ev){tr.addEventListener(ev,function(){pausa=Date.now()+12000},{passive:true})});
   tr.addEventListener('mouseenter',function(){hover=true});tr.addEventListener('mouseleave',function(){hover=false});
   if(!reduz&&cards.length>1)setInterval(function(){if(document.hidden||hover||Date.now()<pausa)return;ir((idx+1)%cards.length)},7000);
