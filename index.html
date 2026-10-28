@@ -179,8 +179,7 @@ button.chip{cursor:pointer}
 .campo input{display:block;width:100%;margin-top:5px;padding:11px 12px;font:400 16px 'DM Sans',sans-serif;color:#111;background:#fff;border:2px solid #111;border-radius:12px}
 .campo-dica{font-size:12.5px;line-height:1.45;color:var(--mudo)}
 .sub-topo{margin:4px 0 2px;font-size:14.5px;line-height:1.4}
-.faixa{font-size:13px;font-weight:600}
-.vagas{display:inline-block;margin-top:6px;padding:3px 10px;font:600 12.5px 'DM Sans',sans-serif;background:var(--sol);border:2px solid #111;border-radius:999px}
+.vagas{display:block;margin-top:14px;padding:13px 16px;text-align:center;font:800 17px/1.25 'Bricolage Grotesque',sans-serif;background:var(--sol);border:2.5px solid #111;border-radius:18px;box-shadow:0 4px 0 #111}
 .vagas[hidden]{display:none}
 .tam.fora{opacity:1;background:#F3F6EE}.tam.fora b,.tam.fora .p{color:var(--mudo)}
 .fora-tag{display:none;margin-top:4px;font:600 11px 'DM Sans',sans-serif;font-style:normal;color:#111}
@@ -208,10 +207,20 @@ button.chip{cursor:pointer}
 .pcard{flex:0 0 84%;scroll-snap-align:center;margin:0;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;background:#fff;border:2.5px solid #111;border-radius:18px;transform:rotate(var(--r,0))}
 .pcard p{font:italic 400 15.5px/1.5 'Lora',Georgia,serif}
 .pcard footer{font-size:12px;color:var(--mudo)}.pcard em{font-weight:600;color:#111}.pcard a{color:#111;font-weight:600}
+.h2-dica{display:block;margin-top:2px;font:400 13px 'DM Sans',sans-serif;color:var(--mudo)}
+@media (max-width:600px){
+  .tams{grid-template-columns:1fr}
+  .tam{display:grid;grid-template-columns:1fr auto;grid-template-areas:"nome preco" "cm par" "tag tag";column-gap:12px;align-items:baseline;padding:11px 14px}
+  .tam b{grid-area:nome}
+  .tam .cm{grid-area:cm}
+  .tam .p{grid-area:preco;margin-top:0;text-align:right}
+  .tam .par{grid-area:par;text-align:right}
+  .tam .fora-tag{grid-area:tag}
+}
 </style>
 </head>
 <body>
-<header class="topo"><div><p class="marca">Uns Predinhos</p><h1>Encomendas 2027</h1><p class="sub-topo">Aquarela original, pintada à mão, do lugar que importa para você.</p><p class="faixa" id="faixa"></p><p class="vagas" id="vagas" hidden></p><button type="button" class="chip" id="abrir">Quem é o Bruno Uns Predinhos?</button></div><img class="mascote" src="img/perfil.jpeg" alt="Bruno Lorenz" onerror="this.outerHTML='<span class=&quot;mascote fb&quot;>BL</span>'"></header>
+<header class="topo"><div><p class="marca">Uns Predinhos</p><h1>Encomendas 2027</h1><p class="sub-topo">Aquarela original, pintada à mão, do lugar que importa para você.</p><button type="button" class="chip" id="abrir">Quem é o Bruno Uns Predinhos?</button></div><img class="mascote" src="img/perfil.jpeg" alt="Bruno Lorenz" onerror="this.outerHTML='<span class=&quot;mascote fb&quot;>BL</span>'"></header>
 
 <div class="calc"><section class="palco" aria-label="Valor e visualização"><div class="cartao">
   <div class="parede" aria-hidden="true">
@@ -231,7 +240,7 @@ button.chip{cursor:pointer}
 </div></section>
 
 <main>
-  <h2>Tamanhos</h2>
+  <h2>Tamanhos Disponíveis <span class="h2-dica">(pressione abaixo para selecionar)</span></h2>
   <div class="tams" id="tams"></div>
 
   <h2>Extras</h2>
@@ -269,6 +278,7 @@ button.chip{cursor:pointer}
 
   <h2>Quem já encomendou</h2>
   <div class="prova-trilho" id="prova-trilho" role="region" aria-roledescription="carrossel" aria-label="Depoimentos de clientes"></div>
+  <p class="vagas" id="vagas" hidden></p>
   <p class="aviso-pgto"><b>Enviar a mensagem não gera nenhuma cobrança.</b> Eu respondo no WhatsApp, confirmo sua vaga e combinamos o pagamento do sinal.</p>
 
   <h2>Como funciona</h2>
@@ -380,7 +390,7 @@ function render(){
 // ── Montagem
 T.forEach(function(t,k){
   var b=document.createElement('button');b.type='button';b.className='tam';
-  b.innerHTML='<b>'+t.n+'</b><span>'+t.w+' × '+t.h+' cm</span><i class="p" style="font-style:normal"></i><span class="par"></span><em class="fora-tag">acima do orçamento definido por você</em>';
+  b.innerHTML='<b>'+t.n+'</b><span class="cm">'+t.w+' × '+t.h+' cm</span><i class="p" style="font-style:normal"></i><span class="par"></span><em class="fora-tag">acima do orçamento definido por você</em>';
   b.querySelector('.p').className='p';
   b.onclick=function(){track('tamanho-'+t.n);E.i=k;E.orc=Math.max(250,Math.ceil(tot(k)/10)*10);render()};
   $('tams').appendChild(b);
@@ -416,12 +426,12 @@ var IMGS=['3exemplo.jpeg','5exemplo.jpeg','7exemplo.jpeg','8exemplo.jpeg','1exem
     d.onclick=function(){$('lbi').src='img/'+n;$('lb').hidden=false};$('pilha').appendChild(d);
   });
   $('lb').onclick=function(){this.hidden=true};
-  var gav=$('sobre'),ult=null,x0=0;
+  var gav=$('sobre'),ult=null,x0=0,y0=0,ign=false;
   function abrir(){track('abriu-quem-e-bruno');ult=document.activeElement;gav.classList.add('aberta');$('veu').classList.add('on');document.body.style.overflow='hidden';$('fechar').focus({preventScroll:true})}
   function fechar(){gav.classList.remove('aberta');$('veu').classList.remove('on');document.body.style.overflow='';if(ult&&ult.focus)ult.focus()}
   $('abrir').onclick=abrir;$('aba').onclick=abrir;$('fechar').onclick=fechar;$('voltar').onclick=fechar;$('veu').onclick=fechar;
-  gav.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
-  gav.addEventListener('touchend',function(e){if(e.changedTouches[0].clientX-x0<-70)fechar()},{passive:true});
+  gav.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;ign=!!(e.target.closest&&e.target.closest('.pilha,.dep-track'))},{passive:true});
+  gav.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(!ign&&dx<-70&&Math.abs(dx)>Math.abs(dy)*1.5)fechar()},{passive:true});
   document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(!$('lb').hidden)$('lb').hidden=true;else if(gav.classList.contains('aberta'))fechar()});
   $('bf-prazo').textContent='Entrega em '+PRAZO;
 })();
@@ -467,8 +477,6 @@ function montarProva(){
   if(!reduz&&cards.length>1)setInterval(function(){if(document.hidden||hover||Date.now()<pausa)return;ir((idx+1)%cards.length)},7000);
 }
 (function(){
-  var mn=Math.min.apply(null,T.map(function(x){return x.b})),mx=Math.max.apply(null,T.map(function(x){return x.b}));
-  $('faixa').textContent='De '+fmt(mn)+' a '+fmt(mx)+'. No Pix ou em até 12× com juros.';
   var vg=$('vagas');
   if(VAGAS!==null){vg.textContent=VAGAS===0?'Vagas de '+PRAZO+' esgotadas, entre na lista de espera':'Para '+PRAZO+': restam '+VAGAS+' de '+VAGAS_MES+' vagas';vg.hidden=false}
   $('exp-d').textContent=EXPRESSA_TXT;
